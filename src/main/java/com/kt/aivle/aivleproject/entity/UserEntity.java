@@ -1,6 +1,6 @@
-package com.kt.aivle.aivleproject.model;
+package com.kt.aivle.aivleproject.entity;
 
-public class User {
+public class UserEntity {
     private Long id;
     private String username;
     private String password;
