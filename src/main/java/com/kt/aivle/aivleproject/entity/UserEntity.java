@@ -1,7 +1,26 @@
 package com.kt.aivle.aivleproject.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Entity
+@Getter
+@Setter
+@Table(name="user")
 public class UserEntity {
+    @Id // pk 지정
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long id;
-    private String username;
+
+    @Column(unique = true) // unique 제약조건
+    private String email;
+
+    @Column
     private String password;
+
+    @Column(unique = true)
+    private String userName;
+
 }

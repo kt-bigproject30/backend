@@ -1,15 +1,9 @@
-server:
-  port: 8080
 spring:
-  application:
-    #    이 프로젝트의 이름 demo
-    name: backend
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #    member라는 database랑 연결, 상요자이름 user_test, 비번 1234
-    url: jdbc:mysql://localhost:3306/member?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: user_test
-    password: 1234
+    url: jdbc:mysql://jasingam.ct4wiau40668.ap-northeast-2.rds.amazonaws.com/jasingam
+    username: admin
+    password: jasingam
   thymeleaf:
     cache: false
 
