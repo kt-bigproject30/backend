@@ -1,13 +1,11 @@
 package com.kt.aivle.aivleproject.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
+@Data
 @Table(name="user")
 public class UserEntity {
     @Id // pk 지정
