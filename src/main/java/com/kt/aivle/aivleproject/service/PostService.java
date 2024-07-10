@@ -13,27 +13,19 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+
+    // 서비스 화면 ==========
     public Post save(Post post) {
         return postRepository.save(post);
     }
 
-    public List<Post> findAll() {
-        return postRepository.findAll();
-    }
-
-    public String summarize(Long id, String contents) {
+    public String summarize(String contents) {
         // 텍스트 요약 로직을 여기에 추가하세요
         String summarizedText = "요약된 텍스트"; // 요약된 텍스트로 교체
-        Optional<Post> postOptional = postRepository.findById(id);
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
-            post.setSummary(summarizedText);
-            postRepository.save(post);
-        }
         return summarizedText;
     }
 
-    public String generateImage(Long id, String summary, String style) {
+    public String generateImage(String summary, String style) {
         // 이미지 생성 로직을 여기에 추가하세요
 
         String generatedImageUrl;
@@ -41,6 +33,7 @@ public class PostService {
         String ImageUrl1 = "https://velog.velcdn.com/images/will258/post/fe94fb83-e6a2-425b-8438-44fa5605da0b/image.png";
         String ImageUrl2 = "https://i.ytimg.com/vi/BjDCzTc0eyI/mqdefault.jpg";
         String ImageUrl3 = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3xYnC9RBPge60pthO9XLe7Sg8aF4Oq02xdg&s";
+        String ImageUrl4 = "https://velog.velcdn.com/images/will258/post/fe94fb83-e6a2-425b-8438-44fa5605da0b/image.png";
 
         switch (style) {
             case "style1":
@@ -52,16 +45,12 @@ public class PostService {
             case "style3":
                 generatedImageUrl = ImageUrl3;
                 break;
+            case "style3=4":
+                generatedImageUrl = ImageUrl4;
+                break;
             default:
                 generatedImageUrl = ImageUrl1;
                 break;
-        }
-
-        Optional<Post> postOptional = postRepository.findById(id);
-        if (postOptional.isPresent()) {
-            Post post = postOptional.get();
-            post.setImageUrl(generatedImageUrl);
-            postRepository.save(post);
         }
         return generatedImageUrl;
     }
@@ -70,14 +59,17 @@ public class PostService {
         Optional<Post> postOptional = postRepository.findById(id);
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
-            post.setTitle(updatedPost.getTitle());
-            post.setContents(updatedPost.getContents());
-            post.setSummary(updatedPost.getSummary());
             post.setImageUrl(updatedPost.getImageUrl());
             return postRepository.save(post);
         } else {
             return null;
         }
+    }
+
+
+    // 게시판 ==============
+    public List<Post> findAll() {
+        return postRepository.findAll();
     }
 
     public Post findById(Long id) {
