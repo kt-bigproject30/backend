@@ -7,6 +7,8 @@ spring:
     url: jdbc:mysql://jasingam.ct4wiau40668.ap-northeast-2.rds.amazonaws.com/jasingam
     username: admin
     password: jasingam
+  jwt:
+    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaehwefehjdslweiuehfb
   thymeleaf:
     cache: false
 
@@ -15,3 +17,5 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

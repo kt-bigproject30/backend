@@ -13,25 +13,25 @@
 <!-- action속성: form에 작성한 데이터를 어디로 보낼지 지정 -->
 <form action="/user/save" method="post">
     <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
-    이메일: <input type="text" name="email" id="email" onblur="emailCheck()"> <br>
+    아이디: <input type="text" name="username" id="username" onblur="usernameCheck()"> <br>
     <p id="check-result"></p>
     비밀번호: <input type="password" name="password"> <br>
-    이름: <input type="text" name="name"> <br>
+    이름: <input type="text" name="username"> <br>
     <input type="submit" value="회원가입">
 
 </form>
 </body>
 <script th:inline="javascript">
-    const emailCheck = () => {
-        const email = document.getElementById("email").value;
+    const usernameCheck = () => {
+        const username = document.getElementById("username").value;
         const checkResult = document.getElementById("check-result");
-        console.log("입력값: ", email);
+        console.log("입력값: ", username);
         $.ajax({
-            // 요청방식: post, url: "email-check", 데이터: 이메일
+            // 요청방식: post, url: "username-check", 데이터: 이메일
             type: "post",
-            url: "/user/email-check",
+            url: "/user/username-check",
             data: {
-                "userEmail": email
+                "userName": username
             },
             success: function(res) {
                 console.log("요청성공", res);

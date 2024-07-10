@@ -13,14 +13,19 @@ public class UserDTO {
     private Long id;
     private String email;
     private String password;
-    private String name;
+    private String username;
+    private String roll;
 
     public static UserDTO toUserDTO(UserEntity userEntity) {
+
+//        UserDTO.UserDTOBuilder userDTOBuilder = UserDTO.builder();
+
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userEntity.getId());
         userDTO.setEmail(userEntity.getEmail());
         userDTO.setPassword(userEntity.getPassword());
-        userDTO.setName(userEntity.getName());
+        userDTO.setUsername(userEntity.getUsername());
+        userDTO.setRoll(userEntity.getRoll());
         return userDTO;
     }
 }

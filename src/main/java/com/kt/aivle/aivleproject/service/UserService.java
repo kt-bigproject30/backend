@@ -3,7 +3,7 @@ package com.kt.aivle.aivleproject.service;
 import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.entity.UserEntity;
 import com.kt.aivle.aivleproject.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,9 +11,37 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class UserService {
+        private final BCryptPasswordEncoder bCryptPasswordEncoder;
         private final UserRepository userRepository;
+
+        public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+            this.userRepository = userRepository;
+            this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        }
+
+        public void joinProcess(UserDTO userDTO) {
+//            String email = userDTO.getEmail();
+            String username = userDTO.getUsername();
+            String password = userDTO.getPassword();
+
+
+            Boolean isExist = userRepository.existsByUsername(username);
+
+            if (isExist) {
+                return;
+            }
+
+            UserEntity data = new UserEntity();
+
+//            data.setEmail(email);
+            data.setUsername(username);
+            data.setPassword(bCryptPasswordEncoder.encode(password));
+            data.setRoll("ROLE_ADMIN");
+
+            userRepository.save(data);
+        }
         public void save(UserDTO userDTO) {
             // 1. dto -> entity 변환
             // 2. repository의 save 메서드 호출
@@ -27,10 +55,10 @@ public class UserService {
             1. 회원이 입력한 이메일로 DB에서 조회를 함
             2. DB에서 조회한 비밀번호와 사용자가 입력한 비밀번호가 일치하는지 판단
          */
-            Optional<UserEntity> byEmail = userRepository.findByEmail(userDTO.getEmail());
-            if (byEmail.isPresent()) {
+            Optional<UserEntity> byUsername = userRepository.findByUsername(userDTO.getUsername());
+            if (byUsername.isPresent()) {
                 // 조회 결과가 있다(해당 이메일을 가진 회원 정보가 있다)
-                UserEntity userEntity = byEmail.get();
+                UserEntity userEntity = byUsername.get();
                 if (userEntity.getPassword().equals(userDTO.getPassword())) {
                     // 비밀번호 일치
                     // entity -> dto 변환 후 리턴
@@ -65,8 +93,8 @@ public class UserService {
 
     }
 
-    public UserDTO updateForm(String myEmail) {
-        Optional<UserEntity> optionalUserEntity = userRepository.findByEmail(myEmail);
+    public UserDTO updateForm(String username) {
+        Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
         if (optionalUserEntity.isPresent()) {
             return UserDTO.toUserDTO(optionalUserEntity.get());
         } else {
@@ -82,9 +110,20 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public String emailCheck(String userEmail) {
-        Optional<UserEntity> byUserEmail = userRepository.findByEmail(userEmail);
-        if (byUserEmail.isPresent()) {
+//    public String emailCheck(String username) {
+//        Optional<UserEntity> byUserEmail = userRepository.findByUsername(username);
+//        if (byUserEmail.isPresent()) {
+//            // 조회결과가 있다 -> 사용할 수 없다.
+//            return null;
+//        } else {
+//            // 조회결과가 없다 -> 사용할 수 있다.
+//            return "ok";
+//        }
+//    }
+
+    public String usernameCheck(String username) {
+        Optional<UserEntity> byUserName = userRepository.findByUsername(username);
+        if (byUserName.isPresent()) {
             // 조회결과가 있다 -> 사용할 수 없다.
             return null;
         } else {
