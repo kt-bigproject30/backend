@@ -2,12 +2,13 @@ package com.kt.aivle.aivleproject.controller;
 
 import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+
 import java.util.List;
 
 @Controller

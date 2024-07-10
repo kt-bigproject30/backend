@@ -1,11 +1,12 @@
 package com.kt.aivle.aivleproject.entity;
 
 import com.kt.aivle.aivleproject.dto.UserDTO;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.catalina.User;
 
-import javax.persistence.*;
 
 @Entity
 @Setter
