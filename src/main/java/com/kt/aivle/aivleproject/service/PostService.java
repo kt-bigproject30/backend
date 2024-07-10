@@ -1,6 +1,9 @@
 package com.kt.aivle.aivleproject.service;
 
 import com.kt.aivle.aivleproject.entity.Post;
+import com.kt.aivle.aivleproject.exception.exceptions.NotCreateImageException;
+import com.kt.aivle.aivleproject.exception.exceptions.PostNotUploadException;
+import com.kt.aivle.aivleproject.exception.exceptions.SummarizeNotFoundException;
 import com.kt.aivle.aivleproject.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +59,7 @@ public class PostService {
     }
 
     public Post updatePost(Long id, Post updatedPost) {
-        Optional<Post> postOptional = postRepository.findById(id);
+        Optional<Post> postOptional = Optional.ofNullable(postRepository.findById(id).orElseThrow(PostNotUploadException::new));
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
             post.setImageUrl(updatedPost.getImageUrl());
@@ -77,6 +80,4 @@ public class PostService {
         Optional<Post> post = postRepository.findById(id);
         return post.orElse(null); // 게시물이 존재하지 않을 경우 null을 반환합니다.
     }
-
-
 }
