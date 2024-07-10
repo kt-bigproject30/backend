@@ -11,7 +11,7 @@
         <th>id</th>
         <th>email</th>
         <th>password</th>
-        <th>user_id</th>
+        <th>username</th>
         <th>상세조회</th>
         <th>삭제</th>
     </tr>
@@ -19,7 +19,7 @@
         <td th:text="${user.id}"></td>
         <td th:text="${user.email}"></td>
         <td th:text="${user.password}"></td>
-        <td th:text="${user.name}"></td>
+        <td th:text="${user.username}"></td>
         <td>
             <a th:href="@{|/user/${user.id}|}">조회</a>
         </td>
