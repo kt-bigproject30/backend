@@ -22,6 +22,7 @@ public class UserService {
         }
 
         public void joinProcess(UserDTO userDTO) {
+            Long id = userDTO.getId();
 //            String email = userDTO.getEmail();
             String username = userDTO.getUsername();
             String password = userDTO.getPassword();
@@ -33,22 +34,26 @@ public class UserService {
                 return;
             }
 
-            UserEntity data = new UserEntity();
+//            UserEntity data = new UserEntity();
+            UserEntity userEntity = UserEntity.toUserEntity(userDTO);
 
+            userEntity.setId(id);
 //            data.setEmail(email);
-            data.setUsername(username);
-            data.setPassword(bCryptPasswordEncoder.encode(password));
-            data.setRoll("ROLE_ADMIN");
+            userEntity.setUsername(username);
+            userEntity.setPassword(bCryptPasswordEncoder.encode(password));
+            userEntity.setRole("ROLE_ADMIN");
 
-            userRepository.save(data);
+//            userRepository.save(data);
+            userRepository.save(userEntity);
         }
-        public void save(UserDTO userDTO) {
+
+//        public void save(UserDTO userDTO) {
             // 1. dto -> entity 변환
             // 2. repository의 save 메서드 호출
-            UserEntity userEntity = UserEntity.toUserEntity(userDTO);
-            userRepository.save(userEntity);
+//            UserEntity userEntity = UserEntity.toUserEntity(userDTO);
+//            userRepository.save(userEntity);
             // repository의 save메서드 호출 (조건. entity객체를 넘겨줘야 함)
-        }
+//        }
 
         public UserDTO login(UserDTO userDTO) {
         /*
@@ -109,17 +114,6 @@ public class UserService {
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
-
-//    public String emailCheck(String username) {
-//        Optional<UserEntity> byUserEmail = userRepository.findByUsername(username);
-//        if (byUserEmail.isPresent()) {
-//            // 조회결과가 있다 -> 사용할 수 없다.
-//            return null;
-//        } else {
-//            // 조회결과가 없다 -> 사용할 수 있다.
-//            return "ok";
-//        }
-//    }
 
     public String usernameCheck(String username) {
         Optional<UserEntity> byUserName = userRepository.findByUsername(username);

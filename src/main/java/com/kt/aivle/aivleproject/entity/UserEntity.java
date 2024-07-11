@@ -16,7 +16,7 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long id;
 
-    @Column // unique 제약조건 추가
+    @Column
     private String email;
 
     @Column
@@ -25,14 +25,14 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
 
-    private String roll;
+    private String role;
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setUsername(userDTO.getUsername());
-        userEntity.setRoll(userDTO.getRoll());
+        userEntity.setRole(userDTO.getRole());
         return userEntity;
     }
 
@@ -42,7 +42,7 @@ public class UserEntity {
         userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setUsername(userDTO.getUsername());
-        userEntity.setRoll(userDTO.getRoll());
+        userEntity.setRole(userDTO.getRole());
         return userEntity;
     }
 
