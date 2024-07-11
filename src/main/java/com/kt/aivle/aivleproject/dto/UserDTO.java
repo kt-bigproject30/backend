@@ -14,7 +14,7 @@ public class UserDTO {
     private String email;
     private String password;
     private String username;
-    private String roll;
+    private String role;
 
     public static UserDTO toUserDTO(UserEntity userEntity) {
 
@@ -25,7 +25,7 @@ public class UserDTO {
         userDTO.setEmail(userEntity.getEmail());
         userDTO.setPassword(userEntity.getPassword());
         userDTO.setUsername(userEntity.getUsername());
-        userDTO.setRoll(userEntity.getRoll());
+        userDTO.setRole(userEntity.getRole());
         return userDTO;
     }
 }

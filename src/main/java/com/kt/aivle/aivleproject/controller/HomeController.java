@@ -18,24 +18,15 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
-//        String name = SecurityContextHolder.getContext().getAuthentication().getName();
-//
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//
-//        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-//        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-//        GrantedAuthority auth = iter.next();
-//        String role = auth.getAuthority();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+        GrantedAuthority auth = iter.next();
+        String role = auth.getAuthority();
+
         return "index";
     }
-
-//    @GetMapping({"/"})
-//    public String mainP() {
-//        return "Main Controller";
-//    }
-//
-//    @GetMapping({"/admin"})
-//    public String adminP() {
-//        return "Admin Controller";
-//    }
 }

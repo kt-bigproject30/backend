@@ -13,7 +13,7 @@ public class CustomUserDetails implements UserDetails {
     private final Optional<UserEntity> userEntity;
 
     public CustomUserDetails(Optional<UserEntity> userEntity) {
-        if (userEntity == null) {
+        if (userEntity.isEmpty()) {
             throw new IllegalArgumentException("UserEntity cannot be null");
         }
         this.userEntity = userEntity;
@@ -27,7 +27,7 @@ public class CustomUserDetails implements UserDetails {
             collection.add(new GrantedAuthority() {
                 @Override
                 public String getAuthority() {
-                    return userEntity.get().getRoll();
+                    return userEntity.get().getRole();
                 }
             });
         }

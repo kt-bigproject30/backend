@@ -29,7 +29,6 @@ public class UserController {
     @GetMapping("/user/save")
     public String saveForm(UserDTO userDTO) {
 
-        userService.joinProcess(userDTO);
         return "save";
     }
 
@@ -39,7 +38,8 @@ public class UserController {
         if (userDTO.getPassword() == null || userDTO.getPassword().isEmpty()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
         }
-        userService.save(userDTO);
+//        userService.save(userDTO);
+        userService.joinProcess(userDTO);
         return "login";
     }
 
@@ -47,19 +47,6 @@ public class UserController {
     public String loginForm() {
         return "login";
     }
-
-//    @PostMapping("/user/login")
-//    public String login(@ModelAttribute UserDTO userDTO, HttpSession session) {
-//        UserDTO loginResult = userService.login(userDTO);
-//        if (loginResult != null) {
-//            // login 성공
-//            session.setAttribute("loginEmail", loginResult.getEmail());
-//            return "main";
-//        } else {
-//            // login 실패
-//            return "login";
-//        }
-//    }
 
     @PostMapping("/user/login")
     public String login(@ModelAttribute UserDTO userDTO, HttpSession session) {
@@ -88,14 +75,6 @@ public class UserController {
         return "detail";
     }
 
-//    @GetMapping("/user/update")
-//    public String updateForm(HttpSession session, Model model) {
-//        String myEmail = (String) session.getAttribute("loginEmail");
-//        UserDTO userDTO = userService.updateForm(myEmail);
-//        model.addAttribute("updateUser", userDTO);
-//        return "update";
-//    }
-
     @GetMapping("/user/update")
     public String updateForm(HttpSession session, Model model) {
         String myUsername = (String) session.getAttribute("loginUsername");
@@ -121,13 +100,6 @@ public class UserController {
         session.invalidate();
         return "index";
     }
-
-//    @PostMapping("/user/email-check")
-//    public @ResponseBody String emailCheck(@RequestParam("userEmail") String userEmail) {
-//        System.out.println("userEmail = " + userEmail);
-//        String checkResult = userService.emailCheck(userEmail);
-//        return checkResult;
-//    }
 
     @PostMapping("/user/username-check")
     public @ResponseBody String usernameCheck(@RequestParam("userName") String userName) {
