@@ -1,7 +1,7 @@
 package com.kt.aivle.aivleproject.controller;
 
-import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.dto.LoginRequest;
+import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.jwt.JWTUtil;
 import com.kt.aivle.aivleproject.service.MemberService;
 import jakarta.validation.Valid;

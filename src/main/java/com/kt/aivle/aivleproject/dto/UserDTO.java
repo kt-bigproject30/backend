@@ -31,9 +31,5 @@ public class UserDTO {
         userDTO.setRole(userEntity.getRole());
         return userDTO;
     }
-<<<<<<< Updated upstream
 }
-=======
 
-}
->>>>>>> Stashed changes
