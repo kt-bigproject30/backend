@@ -17,22 +17,34 @@ public class JWTUtil {
     private SecretKey secretKey;
 
     public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
-        this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), ((SecretKey)((SecretKeyBuilder) Jwts.SIG.HS256.key()).build()).getAlgorithm());
+        this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
     public String getUsername(String token) {
-        return (String)((Claims)Jwts.parser().verifyWith(this.secretKey).build().parseSignedClaims(token).getPayload()).get("username", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("username", String.class);
     }
 
     public String getRole(String token) {
-        return (String)((Claims)Jwts.parser().verifyWith(this.secretKey).build().parseSignedClaims(token).getPayload()).get("role", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
     }
 
     public Boolean isExpired(String token) {
-        return ((Claims)Jwts.parser().verifyWith(this.secretKey).build().parseSignedClaims(token).getPayload()).getExpiration().before(new Date());
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
     public String createJwt(String username, String role, Long expiredMs) {
         return Jwts.builder().claim("username", username).claim("role", role).issuedAt(new Date(System.currentTimeMillis())).expiration(new Date(System.currentTimeMillis() + expiredMs)).signWith(this.secretKey).compact();
     }
+
+//    public Claims getClaims(String token) {
+//        try {
+//            return Jwts.parser()
+//                    .setSigningKey(secretKey)
+//                    .parseClaimsJws(token)
+//                    .getBody();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }

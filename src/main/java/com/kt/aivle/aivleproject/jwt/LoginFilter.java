@@ -40,6 +40,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = auth.getAuthority();
         String token = this.jwtUtil.createJwt(username, role, 36000L);
         response.addHeader("Authorization", "Bearer " + token);
+        System.out.println("JWT Token: " + token);
     }
 
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {

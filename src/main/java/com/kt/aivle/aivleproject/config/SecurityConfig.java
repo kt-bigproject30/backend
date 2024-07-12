@@ -4,6 +4,7 @@ import com.kt.aivle.aivleproject.jwt.JWTFilter;
 import com.kt.aivle.aivleproject.jwt.JWTUtil;
 import com.kt.aivle.aivleproject.jwt.LoginFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -78,7 +79,7 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers( "/", "/user/","/user/login", "/user/save").permitAll()
+                        .requestMatchers( "/", "/user/","/user/login", "/user/save", "/post", "/summarize", "/generateImage", "/generate").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
         http
@@ -91,6 +92,8 @@ public class SecurityConfig {
         http
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        System.out.println("Security Config Applied");
         return http.build();
     }
 }
