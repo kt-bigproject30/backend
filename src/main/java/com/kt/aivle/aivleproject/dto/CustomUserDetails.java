@@ -10,10 +10,10 @@ import java.util.Optional;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final Optional<UserEntity> userEntity;
+    private final UserEntity userEntity;
 
-    public CustomUserDetails(Optional<UserEntity> userEntity) {
-        if (userEntity.isEmpty()) {
+    public CustomUserDetails(UserEntity userEntity) {
+        if (userEntity == null) {
             throw new IllegalArgumentException("UserEntity cannot be null");
         }
         this.userEntity = userEntity;
@@ -23,11 +23,11 @@ public class CustomUserDetails implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
 
-        if (userEntity.isPresent()) {
+        if (userEntity != null) {
             collection.add(new GrantedAuthority() {
                 @Override
                 public String getAuthority() {
-                    return userEntity.get().getRole();
+                    return userEntity.getRole();
                 }
             });
         }
@@ -36,12 +36,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return userEntity.map(UserEntity::getPassword).orElse(null);
+        return userEntity.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return userEntity.map(UserEntity::getUsername).orElse(null);
+        return userEntity.getUsername();
     }
 
     @Override

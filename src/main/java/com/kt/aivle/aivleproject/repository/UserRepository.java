@@ -6,10 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+<<<<<<< Updated upstream
     // 이메일로 회원정보 조회
     Optional<UserEntity> findByUsername(String username);
+=======
+>>>>>>> Stashed changes
 
-//    UserEntity findByUsername(String username);
+    UserEntity findByUsername(String username);
 
     Boolean existsByUsername(String username);
 
