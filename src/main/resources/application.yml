@@ -21,11 +21,11 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
   profiles:
-    include:
-      - API-KEY
-      - AWS-KEY
+    include: API-KEY
 
 
 aws:
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretKey: ${SECRET_KEY}
   s3:
-    bucketName: jasingam-bucket
+    bucketName: ${BUCKET_NAME}
