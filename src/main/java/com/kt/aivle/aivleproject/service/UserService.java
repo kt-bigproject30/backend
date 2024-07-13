@@ -60,10 +60,10 @@ public class UserService {
             1. 회원이 입력한 이메일로 DB에서 조회를 함
             2. DB에서 조회한 비밀번호와 사용자가 입력한 비밀번호가 일치하는지 판단
          */
-            Optional<UserEntity> byUsername = userRepository.findByUsername(userDTO.getUsername());
-            if (byUsername.isPresent()) {
+            UserEntity byUsername = userRepository.findByUsername(userDTO.getUsername());
+            if (byUsername != null) {
                 // 조회 결과가 있다(해당 이메일을 가진 회원 정보가 있다)
-                UserEntity userEntity = byUsername.get();
+                UserEntity userEntity = byUsername;
                 if (userEntity.getPassword().equals(userDTO.getPassword())) {
                     // 비밀번호 일치
                     // entity -> dto 변환 후 리턴
@@ -99,9 +99,9 @@ public class UserService {
     }
 
     public UserDTO updateForm(String username) {
-        Optional<UserEntity> optionalUserEntity = userRepository.findByUsername(username);
-        if (optionalUserEntity.isPresent()) {
-            return UserDTO.toUserDTO(optionalUserEntity.get());
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if (userEntity != null) {
+            return UserDTO.toUserDTO(userEntity);
         } else {
             return null;
         }
@@ -116,8 +116,8 @@ public class UserService {
     }
 
     public String usernameCheck(String username) {
-        Optional<UserEntity> byUserName = userRepository.findByUsername(username);
-        if (byUserName.isPresent()) {
+        UserEntity byUserName = userRepository.findByUsername(username);
+        if (byUserName != null) {
             // 조회결과가 있다 -> 사용할 수 없다.
             return null;
         } else {
