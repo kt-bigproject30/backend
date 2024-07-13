@@ -1,0 +1,3 @@
+aws:
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretKey: UpAweWPB8VgIihztXqND42UHEvdOM8MWWDavEKl2
