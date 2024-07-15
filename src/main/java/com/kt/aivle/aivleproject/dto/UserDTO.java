@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class UserDTO {
     private Long id;
-//    private String email;
+    private String email;
     private String username;
     private String password;
     private String passwordCheck;
@@ -20,11 +20,9 @@ public class UserDTO {
 
     public static UserDTO toUserDTO(UserEntity userEntity) {
 
-//        UserDTO.UserDTOBuilder userDTOBuilder = UserDTO.builder();
-
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userEntity.getId());
-//        userDTO.setEmail(userEntity.getEmail());
+        userDTO.setEmail(userEntity.getEmail());
         userDTO.setPassword(userEntity.getPassword());
         userDTO.setUsername(userEntity.getUsername());
         userDTO.setName(userEntity.getName());

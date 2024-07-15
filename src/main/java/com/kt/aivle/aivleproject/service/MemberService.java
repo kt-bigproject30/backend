@@ -53,13 +53,13 @@ public class MemberService {
         return findMember;
     }
 
-    public UserDTO getLoginById(Long id){
-        if(id == null) return null;
-
-        Optional<UserEntity> findMember = memberRepository.findById(id);
-        return UserDTO.toUserDTO(findMember.orElse(null));
-
-    }
+//    public UserDTO getLoginById(Long id){
+//        if(id == null) return null;
+//
+//        Optional<UserEntity> findMember = memberRepository.findById(id);
+//        return UserDTO.toUserDTO(findMember.orElse(null));
+//
+//    }
 
     public UserDTO getLoginByUsername(String username){
         if(username == null) return null;
