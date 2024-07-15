@@ -17,6 +17,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+      show-sql: true
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 

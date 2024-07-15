@@ -71,6 +71,7 @@ public class JwtLoginController {
             return "ID가 존재합니다.";
         }
 
+
         // 비밀번호 = 비밀번호 체크 여부 확인
         if (!userDTO.getPassword().equals(userDTO.getPasswordCheck())) {
             return "비밀번호가 일치하지 않습니다.";
@@ -87,6 +88,7 @@ public class JwtLoginController {
     public String login(@RequestBody LoginRequest loginRequest){
 
         UserDTO userDTO = memberService.login(loginRequest);
+
 
         if(userDTO==null){
             return "ID 또는 비밀번호가 일치하지 않습니다!";

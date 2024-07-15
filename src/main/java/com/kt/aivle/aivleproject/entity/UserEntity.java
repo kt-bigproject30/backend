@@ -16,22 +16,30 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long id;
 
-    @Column
-    private String email;
+//    @Column
+//    private String email;
 
     @Column
     private String password;
 
-    @Column(unique = true)
+    @Column
+    private String passwordCheck;
+
+    @Column
     private String username;
 
+    @Column
+    private String name;
+
+    @Column
     private String role;
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(userDTO.getEmail());
+//        userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setUsername(userDTO.getUsername());
+        userEntity.setName(userDTO.getName());
         userEntity.setRole(userDTO.getRole());
         return userEntity;
     }
@@ -39,9 +47,10 @@ public class UserEntity {
     public static UserEntity toUpdateUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
         userEntity.setId(userDTO.getId());
-        userEntity.setEmail(userDTO.getEmail());
+//        userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setUsername(userDTO.getUsername());
+        userEntity.setName(userDTO.getName());
         userEntity.setRole(userDTO.getRole());
         return userEntity;
     }

@@ -24,11 +24,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        String username = this.obtainUsername(request);
-        String password = this.obtainPassword(request);
+        String username = obtainUsername(request);
+        String password = obtainPassword(request);
         System.out.println(username);
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password, null);
-        return this.authenticationManager.authenticate(authToken);
+        return authenticationManager.authenticate(authToken);
     }
 
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) {
@@ -36,9 +36,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = customUserDetails.getUsername();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority auth = (GrantedAuthority)iterator.next();
+//        GrantedAuthority auth = (GrantedAuthority)iterator.next();
+        GrantedAuthority auth = iterator.next();
         String role = auth.getAuthority();
-        String token = this.jwtUtil.createJwt(username, role, 36000L);
+        String token = this.jwtUtil.createJwt(username, role, 60*60*1000L);
+
+        // JWT를 response에 담아서 응답 (header 부분)
+        // key: "Authorization"
+        // value: "Bearer " (인증방식) + token
         response.addHeader("Authorization", "Bearer " + token);
         System.out.println("JWT Token: " + token);
     }
