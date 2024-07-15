@@ -4,11 +4,11 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://jasingam.ct4wiau40668.ap-northeast-2.rds.amazonaws.com/jasingam
-    username: admin
-    password: jasingam
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
   jwt:
-    secret: vmfhaltmskdlstkfkdgodyroqkfwkdbalroqkfwkdbalaaehwefehjdslweiuehfb
+    secret: ${JWT_SECRET}
   thymeleaf:
     cache: false
 
@@ -20,10 +20,13 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
-  profiles:
-    include: API-KEY, AWS-KEY
+  openai:
+    api:
+      key: ${OPENAI_API_KEY}
 
 
 aws:
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretKey: ${AWS_SECRET_ACCESS_KEY}
   s3:
-    bucketName: jasingam-bucket
+    bucketName: ${BUCKET_NAME}
