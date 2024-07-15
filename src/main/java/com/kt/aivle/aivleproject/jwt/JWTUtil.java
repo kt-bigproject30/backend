@@ -42,15 +42,13 @@ public class JWTUtil {
                 .compact();
     }
 
-//    public Claims getClaims(String token) {
-//        try {
-//            return Jwts.parser()
-//                    .setSigningKey(secretKey)
-//                    .parseClaimsJws(token)
-//                    .getBody();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
+//    public String refreshJwt(String username, String role, Long expiredMs) {
+//        return Jwts.builder()
+//                .claim("username", username)
+//                .claim("role", role)
+//                .issuedAt(new Date(System.currentTimeMillis()))
+//                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+//                .signWith(this.secretKey)
+//                .compact();
 //    }
 }

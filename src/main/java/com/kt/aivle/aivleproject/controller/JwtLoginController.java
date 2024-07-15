@@ -84,6 +84,11 @@ public class JwtLoginController {
         return "redirect:/jwt-login";
     }
 
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest loginRequest){
 
