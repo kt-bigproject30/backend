@@ -40,7 +40,6 @@ public class SecurityConfig {
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
-
         return new BCryptPasswordEncoder();
     }
 
@@ -69,7 +68,7 @@ public class SecurityConfig {
         http
                 .csrf((auth) -> auth.disable());
 
-        //Form 로그인 방식 disable => POSTMAN으로 검증
+        //Form 로그인 방식 disable
         http
                 .formLogin((auth) -> auth.disable());
 
@@ -80,15 +79,12 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers( "/", "/post", "/summarize", "/generateImage", "/generate", "/api/text_summarize", "/jwt-login", "/jwt-login/login", "/jwt-login/join", "/uploadImage").permitAll()
-                        .requestMatchers("/jwt-login/admin").hasRole("ADMIN")
+                        .requestMatchers( "/", "/user/","/user/login", "/user/save", "/post", "/summarize", "/generateImage", "/generate", "/api/text_summarize").permitAll()
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
-
-        // 로그인 필터 이전에 JWTFilter를 넣음
         http
                 .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 
-        // 새로 만든 로그인 필터를 원래의 (UsernamePasswordAuthenticationFilter)의 자리에 넣음
         http
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
