@@ -16,13 +16,13 @@ import java.util.List;
 @Service
 public class S3Service {
 
-    @Value("${aws.accessKeyId}")
+    @Value("${aws.access.key.id}")
     private String accessKeyId;
 
-    @Value("${aws.secretAccessKey}")
+    @Value("${aws.secret.access.key}")
     private String secretAccessKey;
 
-    @Value("${aws.s3.bucketName}")
+    @Value("${bucket.name}")
     private String bucketName;
 
     private S3Client s3Client;
