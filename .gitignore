@@ -37,3 +37,7 @@ out/
 .vscode/
 .env
 
+application-api.properties
+application-db.properties
+application-aws.properties
+application-jwt.properties

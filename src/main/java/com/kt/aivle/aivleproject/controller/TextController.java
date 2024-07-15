@@ -24,7 +24,7 @@ public class TextController {
                 throw new RuntimeException("OpenAI API key is not set.");
             }
 
-            ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\User\\Downloads\\llm\\test_llm.py", post.getContents());
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_llm.py", post.getContents());
             processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();
@@ -54,7 +54,7 @@ public class TextController {
                 throw new RuntimeException("OpenAI API key is not set.");
             }
 
-            ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\User\\Downloads\\llm\\test_prompt.py", post.getSummary());
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_prompt.py", post.getSummary());
             processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();
