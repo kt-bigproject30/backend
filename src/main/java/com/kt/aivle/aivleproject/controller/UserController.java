@@ -1,6 +1,10 @@
 //package com.kt.aivle.aivleproject.controller;
 //
 //import com.kt.aivle.aivleproject.dto.UserDTO;
+<<<<<<< Updated upstream
+=======
+//import com.kt.aivle.aivleproject.service.UserService;
+>>>>>>> Stashed changes
 //import jakarta.servlet.http.HttpSession;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -106,6 +110,7 @@
 //        String checkResult = userService.usernameCheck(userName);
 //        return checkResult;
 //    }
+<<<<<<< Updated upstream
 //}
 //=======
 ////package com.kt.aivle.aivleproject.controller;
@@ -226,3 +231,6 @@
 ////    }
 ////}
 //>>>>>>> Stashed changes
+=======
+//}
+>>>>>>> Stashed changes
