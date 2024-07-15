@@ -15,7 +15,8 @@ public class TextController {
     @Value("${openai.api.key}")
     private String openaiApiKey;
 
-    @PostMapping(value = "/text_summarize", consumes = "application/json; charset=UTF-8")
+    // 요약문 생성
+    @GetMapping(value = "/text_summarize", consumes = "application/json; charset=UTF-8")
     public String summarizeText(@RequestBody Post post) {
         String result = "";
         try {
@@ -24,6 +25,36 @@ public class TextController {
             }
 
             ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\User\\Downloads\\llm\\test_llm.py", post.getContents());
+            processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
+            processBuilder.redirectErrorStream(true);
+            Process process = processBuilder.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                result += line;
+            }
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return "Error: " + e.getMessage();
+        }
+        return result;
+    }
+
+
+    // 프롬프트 생성
+    @GetMapping(value = "/text_prompt", consumes = "application/json; charset=UTF-8")
+    public String promptText(@RequestBody Post post) {
+        String result = "";
+        try {
+            if (openaiApiKey == null || openaiApiKey.isEmpty()) {
+                throw new RuntimeException("OpenAI API key is not set.");
+            }
+
+            ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\User\\Downloads\\llm\\test_prompt.py", post.getSummary());
             processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();
