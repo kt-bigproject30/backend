@@ -36,23 +36,24 @@ public class UserEntity {
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setEmail(userDTO.getEmail());
+//        userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(userDTO.getPassword());
+        userEntity.setPasswordCheck(userDTO.getPasswordCheck());
         userEntity.setUsername(userDTO.getUsername());
         userEntity.setName(userDTO.getName());
         userEntity.setRole(userDTO.getRole());
         return userEntity;
     }
 
-    public static UserEntity toUpdateUserEntity(UserDTO userDTO) {
-        UserEntity userEntity = new UserEntity();
-        userEntity.setId(userDTO.getId());
-        userEntity.setEmail(userDTO.getEmail());
-        userEntity.setPassword(userDTO.getPassword());
-        userEntity.setUsername(userDTO.getUsername());
-        userEntity.setName(userDTO.getName());
-        userEntity.setRole(userDTO.getRole());
-        return userEntity;
-    }
+//    public static UserEntity toUpdateUserEntity(UserDTO userDTO) {
+//        UserEntity userEntity = new UserEntity();
+//        userEntity.setId(userDTO.getId());
+//        userEntity.setEmail(userDTO.getEmail());
+//        userEntity.setPassword(userDTO.getPassword());
+//        userEntity.setUsername(userDTO.getUsername());
+//        userEntity.setName(userDTO.getName());
+//        userEntity.setRole(userDTO.getRole());
+//        return userEntity;
+//    }
 
 }

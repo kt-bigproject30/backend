@@ -21,12 +21,8 @@ public class MemberService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public boolean checkUsernameDuplicate(String username){
+
         return memberRepository.existsByUsername(username);
-    }
-
-
-    public void join(UserDTO userDTO) {
-        memberRepository.save(UserEntity.toUserEntity(userDTO));
     }
 
     public void securityJoin(UserDTO userDTO){

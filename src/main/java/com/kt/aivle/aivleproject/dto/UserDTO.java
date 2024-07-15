@@ -22,8 +22,9 @@ public class UserDTO {
 
         UserDTO userDTO = new UserDTO();
         userDTO.setId(userEntity.getId());
-        userDTO.setEmail(userEntity.getEmail());
+//        userDTO.setEmail(userEntity.getEmail());
         userDTO.setPassword(userEntity.getPassword());
+        userDTO.setPasswordCheck(userEntity.getPasswordCheck());
         userDTO.setUsername(userEntity.getUsername());
         userDTO.setName(userEntity.getName());
         userDTO.setRole(userEntity.getRole());

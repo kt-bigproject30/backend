@@ -60,7 +60,7 @@ public class JwtLoginController {
     }
 
     @PostMapping("/join")
-    public String join(@Valid @ModelAttribute UserDTO userDTO,
+    public String join(@Valid @RequestBody UserDTO userDTO,
                        BindingResult bindingResult, Model model) {
 
         model.addAttribute("loginType", "jwt-login");
@@ -85,7 +85,10 @@ public class JwtLoginController {
     }
 
     @GetMapping("/login")
-    public String loginForm() {
+    public String loginForm(Model model) {
+        model.addAttribute("loginType", "jwt-login");
+        model.addAttribute("pageName", "스프링 시큐리티 JWT 로그인");
+        model.addAttribute("loginRequest", new LoginRequest());
         return "login";
     }
 
