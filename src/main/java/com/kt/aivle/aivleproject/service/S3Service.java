@@ -1,28 +1,53 @@
 package com.kt.aivle.aivleproject.service;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Object;
 
-import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class S3Service {
 
-    @Autowired
-    private AmazonS3 amazonS3;
+    @Value("${aws.access.key.id}")
+    private String accessKeyId;
 
-    @Value("${aws.s3.bucketName}")
+    @Value("${aws.secret.access.key}")
+    private String secretAccessKey;
+
+    @Value("${bucket.name}")
     private String bucketName;
 
-    public String uploadFile(MultipartFile file) throws IOException {
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(file.getSize());
-        amazonS3.putObject(bucketName, fileName, file.getInputStream(), metadata);
-        return amazonS3.getUrl(bucketName, fileName).toString();
+    private S3Client s3Client;
+
+    @PostConstruct
+    public void init() {
+        AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKeyId, secretAccessKey);
+        this.s3Client = S3Client.builder()
+                .region(Region.AP_NORTHEAST_2) // 서울 리전 - 대문자로만 입력
+                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+                .build();
+    }
+
+    public String uploadFile(String filePath) {
+        String keyName = Paths.get(filePath).getFileName().toString();
+        PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(keyName)
+                .build();
+
+        s3Client.putObject(putObjectRequest, Paths.get(filePath));
+        return s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(keyName)).toExternalForm();
+    }
+
+    public List<S3Object> listFiles() {
+        return s3Client.listObjectsV2(builder -> builder.bucket(bucketName)).contents();
     }
 }
