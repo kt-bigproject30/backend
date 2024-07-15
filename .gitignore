@@ -35,7 +35,5 @@ out/
 
 ### VS Code ###
 .vscode/
+.env
 
-application.yml
-application-API-KEY.yml
-application-AWS-KEY.yml

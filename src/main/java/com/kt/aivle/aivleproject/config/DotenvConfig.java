@@ -10,7 +10,10 @@ public class DotenvConfig {
     @Bean
     public Dotenv dotenv() {
         return Dotenv.configure()
-                .directory("/home/ec2-user/test") // 서버에서 .env 파일이 위치한 디렉토리
+//                .directory("/home/ec2-user/test") // 서버에서 .env 파일이 위치한 디렉토리
+                .directory("./") // 로컬에서 .env 파일이 위치한 디렉토리
+                .ignoreIfMalformed()
+                .ignoreIfMissing()
                 .load();
     }
 }
