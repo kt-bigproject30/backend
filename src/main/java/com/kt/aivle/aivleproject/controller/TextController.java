@@ -15,7 +15,7 @@ public class TextController {
     @Value("${openai.api.key}")
     private String openaiApiKey;
 
-    @PostMapping(value = "/text_summarize", consumes = "application/json; charset=UTF-8")
+    @GetMapping(value = "/text_summarize", consumes = "application/json; charset=UTF-8")
     public String summarizeText(@RequestBody Post post) {
         String result = "";
         try {
