@@ -1,10 +1,9 @@
 package com.kt.aivle.aivleproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -18,4 +17,11 @@ public class Post {
     private String contents;
     private String summary;
     private String imageUrl;
+
+    private LocalDateTime createdAt;
+    private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "user_uuid", referencedColumnName = "uuid") // 'referencedColumnName'은 UserEntity의 PK 필드명과 일치해야 합니다.
+    private UserEntity userEntity;
 }

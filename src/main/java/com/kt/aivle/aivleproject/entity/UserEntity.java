@@ -1,14 +1,18 @@
 package com.kt.aivle.aivleproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kt.aivle.aivleproject.dto.UserDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.catalina.User;
+import org.hibernate.annotations.GenericGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -16,14 +20,17 @@ import org.apache.catalina.User;
 @Getter
 @Table(name = "user")
 public class UserEntity {
-    @Id // pk 지정
+//    @Id // pk 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
     private Long id;
 
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(updatable = false, nullable = false)
+    private UUID uuid;
 //    @Column
 //    private String email;
-
-
 
     @NotBlank(message = "비밀번호는 필수 입력값입니다.")
     @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.")
@@ -42,6 +49,10 @@ public class UserEntity {
 
     @Column
     private String role;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "userEntity") // mappedBy 속성 값은 Post 클래스 내의 UserEntity 참조 변수명과 일치해야 합니다.
+    private List<Post> posts = new ArrayList<>();
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
