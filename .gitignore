@@ -36,7 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 .env
-application.yml
 .DS_Store
 
 application-api.properties

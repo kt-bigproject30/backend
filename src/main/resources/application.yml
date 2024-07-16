@@ -1,14 +1,17 @@
-server:
-  port: 8080
-
 spring:
+  config:
+    import:
+      - classpath:config/application-api.properties
+      - classpath:config/application-aws.properties
+      - classpath:config/application-db.properties
+      - classpath:config/application-jwt.properties
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    driver-class-name: ${spring.datasource.driver-class-name}
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
   jwt:
-    secret: ${JWT_SECRET}
+    secret: ${jwt.secret}
   thymeleaf:
     cache: false
 
@@ -22,11 +25,11 @@ spring:
 
   openai:
     api:
-      key: ${OPENAI_API_KEY}
+      key: ${openai.api.key}
 
 
 aws:
-  accessKeyId: ${AWS_ACCESS_KEY_ID}
-  secretKey: ${AWS_SECRET_ACCESS_KEY}
+  accessKeyId: ${aws.access.key.id}
+  secretKey: ${aws.secret.access.key}
   s3:
-    bucketName: ${BUCKET_NAME}
+    bucketName: ${bucket.name}

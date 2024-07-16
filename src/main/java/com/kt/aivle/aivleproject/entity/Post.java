@@ -14,7 +14,10 @@ public class Post {
     private Long id;
 
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String contents;
+    @Column(columnDefinition = "TEXT")
     private String summary;
     private String imageUrl;
 
