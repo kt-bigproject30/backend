@@ -16,15 +16,12 @@ public class StableDiffusionController {
         String positivePrompt = request.get("positive_prompt");
         String negativePrompt = request.get("negative_prompt");
         String imgNum = request.get("img_num");
-        // 추가된 부분
-        String accessKey = System.getenv("aws.access.key.id");
-        String secretKey = System.getenv("aws.secret.access.key");
-        String bucketName = System.getenv("bucket.name");
-        System.out.println("잘 가나?");
+        String accessKey = System.getenv("AWS_ACCESS_KEY_ID");
+        String secretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
+        String bucketName = System.getenv("BUCKET_NAME");
+
         try {
-            System.out.println("모델링 돌려보는 중");
             ProcessBuilder processBuilder = new ProcessBuilder("python3", "test3.py", positivePrompt, negativePrompt, imgNum, bucketName);
-            // 추가된 부분
             processBuilder.environment().put("AWS_ACCESS_KEY_ID", accessKey);
             processBuilder.environment().put("AWS_SECRET_ACCESS_KEY", secretKey);
             Process process = processBuilder.start();
@@ -34,7 +31,6 @@ public class StableDiffusionController {
             String line;
             while ((line = reader.readLine()) != null) {
                 output.append(line).append("\n");
-                System.out.println("이거 되냐?");
             }
             process.waitFor();
 
