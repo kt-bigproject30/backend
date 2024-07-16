@@ -1,5 +1,6 @@
 package com.kt.aivle.aivleproject.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,16 +11,19 @@ import java.util.Map;
 
 @RestController
 public class StableDiffusionController {
+    @Value("${aws.access.key.id}")
+    private String accessKey;
 
+    @Value("${aws.secret.access.key}")
+    private String secretKey;
+
+    @Value("${bucket.name}")
+    private String bucketName;
     @PostMapping("/generate")
     public String generateImage(@RequestBody Map<String, String> request) {
         String positivePrompt = request.get("positive_prompt");
         String negativePrompt = request.get("negative_prompt");
         String imgNum = request.get("img_num");
-        String accessKey = System.getenv("AWS_ACCESS_KEY_ID");
-        String secretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
-        String bucketName = System.getenv("BUCKET_NAME");
-
         try {
             ProcessBuilder processBuilder = new ProcessBuilder("python3", "test3.py", positivePrompt, negativePrompt, imgNum, bucketName);
             processBuilder.environment().put("AWS_ACCESS_KEY_ID", accessKey);
