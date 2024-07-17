@@ -85,7 +85,7 @@ public class PostService {
         return post.orElse(null); // 게시물이 존재하지 않을 경우 null을 반환합니다.
     }
 
-        public List<Post> getPostsByUser(Long id) {
+    public List<Post> getPostsByUser(Long id) {
         return postRepository.findAllById(id);
     }
 

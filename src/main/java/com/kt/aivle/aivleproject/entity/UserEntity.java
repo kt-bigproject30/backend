@@ -37,7 +37,7 @@ public class UserEntity {
 
     @Column(nullable = false, unique = true)
     @Size(min = 6, message = "ID는 6자 이상 구성되어야 합니다.")
-    @Pattern(regexp = "^[a-zA-Z]+$", message = "ID는 영문자만 포함해야 합니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "ID는 영문자와 숫자만 포함해야 합니다.")
     private String username;
 
     @NotBlank(message = "비밀번호는 필수 입력값입니다.")
