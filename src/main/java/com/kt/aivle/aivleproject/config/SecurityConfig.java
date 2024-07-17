@@ -33,6 +33,7 @@ public class SecurityConfig {
         this.jwtUtil = jwtUtil;
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
@@ -80,7 +81,7 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers( "/", "/post","/post/{id}", "/summarize", "/generateImage", "/generate", "/api/text_summarize", "/api/text_prompt","/jwt-login", "/jwt-login/login", "/jwt-login/join").permitAll()
+                        .requestMatchers( "/","/jwt-login","/jwt-login/login","/jwt-login/join").permitAll()
                         .requestMatchers("/jwt-login/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
 

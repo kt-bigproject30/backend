@@ -1,20 +1,24 @@
 package com.kt.aivle.aivleproject.service;
 
 import com.kt.aivle.aivleproject.entity.Post;
-import com.kt.aivle.aivleproject.exception.exceptions.NotCreateImageException;
+import com.kt.aivle.aivleproject.entity.UserEntity;
 import com.kt.aivle.aivleproject.exception.exceptions.PostNotUploadException;
-import com.kt.aivle.aivleproject.exception.exceptions.SummarizeNotFoundException;
 import com.kt.aivle.aivleproject.repository.PostRepository;
+import com.kt.aivle.aivleproject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PostService {
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
 
     // 서비스 화면 ==========
@@ -80,4 +84,9 @@ public class PostService {
         Optional<Post> post = postRepository.findById(id);
         return post.orElse(null); // 게시물이 존재하지 않을 경우 null을 반환합니다.
     }
+
+        public List<Post> getPostsByUser(Long id) {
+        return postRepository.findAllById(id);
+    }
+
 }

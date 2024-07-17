@@ -36,7 +36,7 @@ public class MemberService {
     }
 
     public UserDTO login(LoginRequest loginRequest) {
-        UserDTO findMember = UserDTO.toUserDTO(memberRepository.findByUsername(loginRequest.getUsername()));
+        UserDTO findMember = UserDTO.toUserDTO(Optional.ofNullable(memberRepository.findByUsername(loginRequest.getUsername())));
 
         if(findMember == null){
             return null;
@@ -60,8 +60,12 @@ public class MemberService {
     public UserDTO getLoginByUsername(String username){
         if(username == null) return null;
 
-        return UserDTO.toUserDTO(memberRepository.findByUsername(username));
+        return UserDTO.toUserDTO(Optional.ofNullable(memberRepository.findByUsername(username)));
 
     }
 
+//    public UserEntity getUserByUsername(String username) {
+//        return memberRepository.findByUsername(username)
+//                .orElseThrow(() -> new IllegalArgumentException("Invalid username"));
+//    }
 }

@@ -14,15 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
 @Entity
 @Setter
 @Getter
 @Table(name = "user")
+//        , indexes = {
+//        @Index(name = "idx_uuid", columnList = "uuid", unique = true)
+//})
 public class UserEntity {
 //    @Id // pk 지정
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-    private Long id;
+//    @Column(nullable = false)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
+//    private Long id;
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -32,6 +35,11 @@ public class UserEntity {
 //    @Column
 //    private String email;
 
+    @Column(nullable = false, unique = true)
+    @Size(min = 6, message = "ID는 6자 이상 구성되어야 합니다.")
+    @Pattern(regexp = "^[a-zA-Z]+$", message = "ID는 영문자만 포함해야 합니다.")
+    private String username;
+
     @NotBlank(message = "비밀번호는 필수 입력값입니다.")
     @Size(min = 8, message = "비밀번호는 8자 이상이어야 합니다.")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z])(?=\\S+$).*$", message = "비밀번호는 숫자와 알파벳을 포함하여야 합니다.")
@@ -39,10 +47,6 @@ public class UserEntity {
 
     @Column
     private String passwordCheck;
-
-    @Column(nullable = false, unique = true)
-    @Size(min = 6, message = "ID는 6자 이상 구성되어야 합니다.")
-    private String username;
 
     @Column
     private String name;
