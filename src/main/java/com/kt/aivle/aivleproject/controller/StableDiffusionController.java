@@ -19,13 +19,15 @@ public class StableDiffusionController {
 
     @Value("${bucket.name}")
     private String bucketName;
+
     @PostMapping("/generate")
     public String generateImage(@RequestBody Map<String, String> request) {
         String positivePrompt = request.get("positive_prompt");
         String negativePrompt = request.get("negative_prompt");
-        String imgNum = request.get("img_num");
+        String userSelectModel = request.get("user_select_model"); // 추가된 부분
+
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test3.py", positivePrompt, negativePrompt, imgNum, bucketName);
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test3.py", positivePrompt, negativePrompt, userSelectModel, bucketName);
             processBuilder.environment().put("AWS_ACCESS_KEY_ID", accessKey);
             processBuilder.environment().put("AWS_SECRET_ACCESS_KEY", secretKey);
             Process process = processBuilder.start();
