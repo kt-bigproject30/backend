@@ -16,7 +16,7 @@ public class TextController {
     private String openaiApiKey;
 
     // 요약문 생성
-    @GetMapping(value = "/text_summarize", consumes = "application/json; charset=UTF-8")
+    @PostMapping(value = "/text_summarize", consumes = "application/json; charset=UTF-8")
     public String summarizeText(@RequestBody Post post) {
         String result = "";
         try {
@@ -46,7 +46,7 @@ public class TextController {
 
 
     // 프롬프트 생성
-    @GetMapping(value = "/text_prompt", consumes = "application/json; charset=UTF-8")
+    @PostMapping(value = "/text_prompt", consumes = "application/json; charset=UTF-8")
     public String promptText(@RequestBody Post post) {
         String result = "";
         try {
