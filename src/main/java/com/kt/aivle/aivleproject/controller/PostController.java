@@ -16,6 +16,10 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    public PostController(PostService postService) {
+        this.postService = postService;
+    }
+
     // DraftAI 버튼 : db 등록 save()
     @CrossOrigin
     @PostMapping("/post")
