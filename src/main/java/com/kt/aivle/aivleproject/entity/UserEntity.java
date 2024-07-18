@@ -55,8 +55,8 @@ public class UserEntity {
     private String role;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userEntity") // mappedBy 속성 값은 Post 클래스 내의 UserEntity 참조 변수명과 일치해야 합니다.
-    private List<Post> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "userEntity") // mappedBy 속성 값은 PostEntity 클래스 내의 UserEntity 참조 변수명과 일치해야 합니다.
+    private List<PostEntity> postEntities = new ArrayList<>();
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();

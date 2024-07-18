@@ -1,7 +1,6 @@
 package com.kt.aivle.aivleproject.service;
 
-import com.kt.aivle.aivleproject.dto.UserDTO;
-import com.kt.aivle.aivleproject.entity.Post;
+import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.entity.UserEntity;
 import com.kt.aivle.aivleproject.exception.exceptions.PostNotUploadException;
 import com.kt.aivle.aivleproject.repository.PostRepository;
@@ -24,13 +23,13 @@ public class PostService {
     }
 
     // 서비스 화면 ==========
-    public Post save(Post post) {
+    public PostEntity save(PostEntity postEntity) {
 
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity userEntity = userRepository.findByUsername(username);;
 
-        post.setUserEntity(userEntity);
-        return postRepository.save(post);
+        postEntity.setUserEntity(userEntity);
+        return postRepository.save(postEntity);
     }
 
     public String summarize(String contents) {
@@ -69,12 +68,12 @@ public class PostService {
         return generatedImageUrl;
     }
 
-    public Post updatePost(Long id, Post updatedPost) {
-        Optional<Post> postOptional = Optional.ofNullable(postRepository.findById(id).orElseThrow(PostNotUploadException::new));
+    public PostEntity updatePost(Long id, PostEntity updatedPostEntity) {
+        Optional<PostEntity> postOptional = Optional.ofNullable(postRepository.findById(id).orElseThrow(PostNotUploadException::new));
         if (postOptional.isPresent()) {
-            Post post = postOptional.get();
-            post.setImageUrl(updatedPost.getImageUrl());
-            return postRepository.save(post);
+            PostEntity postEntity = postOptional.get();
+            postEntity.setImageUrl(updatedPostEntity.getImageUrl());
+            return postRepository.save(postEntity);
         } else {
             return null;
         }
@@ -82,17 +81,17 @@ public class PostService {
 
 
     // 게시판 ==============
-    public List<Post> findAll() {
+    public List<PostEntity> findAll() {
         return postRepository.findAll();
     }
 
-    public Post findById(Long id) {
+    public PostEntity findById(Long id) {
         // PostRepository를 사용하여 id에 해당하는 게시물을 찾아옵니다.
-        Optional<Post> post = postRepository.findById(id);
+        Optional<PostEntity> post = postRepository.findById(id);
         return post.orElse(null); // 게시물이 존재하지 않을 경우 null을 반환합니다.
     }
 
-    public List<Post> getPostsByUser(Long id) {
+    public List<PostEntity> getPostsByUser(Long id) {
         return postRepository.findAllById(id);
     }
 

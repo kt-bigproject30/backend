@@ -11,7 +11,7 @@
 </head>
 <body>
 <!-- action속성: form에 작성한 데이터를 어디로 보낼지 지정 -->
-<form action="/user/save" method="post">
+<form action="/user/save" method="postEntity">
     <!-- name속성: 서버로 전송할 때 변수이름의 역할 -->
     아이디: <input type="text" name="username" id="username" onblur="usernameCheck()"> <br>
     <p id="check-result"></p>
@@ -26,8 +26,8 @@
         const checkResult = document.getElementById("check-result");
         console.log("입력값: ", username);
         $.ajax({
-            // 요청방식: post, url: "username-check", 데이터: 이메일
-            type: "post",
+            // 요청방식: postEntity, url: "username-check", 데이터: 이메일
+            type: "postEntity",
             url: "/user/username-check",
             data: {
                 "userName": username

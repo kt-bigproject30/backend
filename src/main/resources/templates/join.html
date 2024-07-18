@@ -9,7 +9,7 @@
 <div>
     <h1><a th:href="|/${loginType}|">[[${pageName}]]</a></h1> <hr/>
     <h2>회원 가입</h2>
-    <form th:method="post" th:action="|@{/{loginType}/join (loginType=${loginType})}|" th:object="${userDTO}">
+    <form th:method="postEntity" th:action="|@{/{loginType}/join (loginType=${loginType})}|" th:object="${userDTO}">
         <div>
             <label th:for="username">ID : </label>
             <input type="text" th:field="*{username}" th:errorclass="error-input"/>

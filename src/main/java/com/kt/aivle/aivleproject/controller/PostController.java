@@ -1,6 +1,6 @@
 package com.kt.aivle.aivleproject.controller;
 
-import com.kt.aivle.aivleproject.entity.Post;
+import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 
 @RestController
@@ -20,15 +19,15 @@ public class PostController {
     // DraftAI 버튼 : db 등록 save()
     @CrossOrigin
     @PostMapping("/post")
-    public ResponseEntity<?> save(@RequestBody Post post) {
-        return new ResponseEntity<>(postService.save(post), HttpStatus.CREATED);
+    public ResponseEntity<?> save(@RequestBody PostEntity postEntity) {
+        return new ResponseEntity<>(postService.save(postEntity), HttpStatus.CREATED);
     }
 
     // 텍스트요약 버튼 : 텍스트 요약
     @CrossOrigin
     @GetMapping("/summarize")
-    public ResponseEntity<?> summarize(@RequestBody Post post) {
-        String summary = postService.summarize(post.getContents());
+    public ResponseEntity<?> summarize(@RequestBody PostEntity postEntity) {
+        String summary = postService.summarize(postEntity.getContents());
 
         Map<String, String> response = new HashMap<>();
         response.put("summary", summary);
@@ -51,9 +50,9 @@ public class PostController {
     // 게시글등록 버튼 : update()
     @CrossOrigin
     @PutMapping("/updatePost/{id}")
-    public ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestBody Post post) {
-        Post updatedPost = postService.updatePost(id, post);
-        return new ResponseEntity<>(updatedPost, HttpStatus.OK);
+    public ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestBody PostEntity postEntity) {
+        PostEntity updatedPostEntity = postService.updatePost(id, postEntity);
+        return new ResponseEntity<>(updatedPostEntity, HttpStatus.OK);
     }
 
 

@@ -1,6 +1,6 @@
 package com.kt.aivle.aivleproject.controller;
 
-import com.kt.aivle.aivleproject.entity.Post;
+import com.kt.aivle.aivleproject.entity.PostEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import java.io.BufferedReader;
@@ -17,14 +17,14 @@ public class TextController {
 
     // 요약문 생성
     @PostMapping(value = "/text_summarize", consumes = "application/json; charset=UTF-8")
-    public String summarizeText(@RequestBody Post post) {
+    public String summarizeText(@RequestBody PostEntity postEntity) {
         String result = "";
         try {
             if (openaiApiKey == null || openaiApiKey.isEmpty()) {
                 throw new RuntimeException("OpenAI API key is not set.");
             }
 
-            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_llm.py", post.getContents());
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_llm.py", postEntity.getContents());
             processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();
@@ -47,14 +47,14 @@ public class TextController {
 
     // 프롬프트 생성
     @PostMapping(value = "/text_prompt", consumes = "application/json; charset=UTF-8")
-    public String promptText(@RequestBody Post post) {
+    public String promptText(@RequestBody PostEntity postEntity) {
         String result = "";
         try {
             if (openaiApiKey == null || openaiApiKey.isEmpty()) {
                 throw new RuntimeException("OpenAI API key is not set.");
             }
 
-            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_prompt.py", post.getSummary());
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_prompt.py", postEntity.getSummary());
             processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();

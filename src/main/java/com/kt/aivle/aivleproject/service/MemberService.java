@@ -2,7 +2,6 @@ package com.kt.aivle.aivleproject.service;
 
 import com.kt.aivle.aivleproject.dto.LoginRequest;
 import com.kt.aivle.aivleproject.dto.UserDTO;
-import com.kt.aivle.aivleproject.entity.Post;
 import com.kt.aivle.aivleproject.entity.UserEntity;
 import com.kt.aivle.aivleproject.repository.PostRepository;
 import com.kt.aivle.aivleproject.repository.UserRepository;
@@ -12,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 
