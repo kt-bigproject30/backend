@@ -47,47 +47,66 @@ def upload_to_s3(image_path, bucket_name, s3_key):
     try:
         s3.upload_file(image_path, bucket_name, s3_key)
         print(f"Image successfully uploaded to {bucket_name}/{s3_key}")
+        image_url = f"https://{bucket_name}.s3.amazonaws.com/{s3_key}"
+        return image_url
     except Exception as e:
         print(f"Error uploading image: {e}")
         raise
 
-def gen_img(prompt, negative_prompt, img_num, pipeline, user_select_model, bucket_name):
+def gen_img(prompt, negative_prompt, img_num, pipeline, user_select_model, bucket_name, username):
     base_prompt = "masterpiece, best quality, "
     base_negative_prompt = "nsfw, ugly, lowres, bad anatomy, bad hands, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, blurry, "
     if user_select_model == 4:
         base_prompt += "pixel, "
+    
+    image_urls = []
+
     for i in range(img_num):
-        result = pipeline(
-            prompt=base_prompt + prompt,
-            negative_prompt=base_negative_prompt + negative_prompt,
-            guidance_scale=8.0,
-            num_inference_steps=30,
-            num_images_per_prompt=1,
-        )
-        image = result.images[0]
-        image_path = f"generated_image_{user_select_model}_{i + 1}.png"
-        image.save(image_path)
-        print(f"Image {i + 1} saved locally.")
-        s3_key = f"generated_images/{image_path}"
-        upload_to_s3(image_path, bucket_name, s3_key)
+        try:
+            print(i+1, "번째 실행중")
+            result = pipeline(
+                prompt=base_prompt + prompt,
+                negative_prompt=base_negative_prompt + negative_prompt,
+                guidance_scale=8.0,
+                num_inference_steps=30,
+                num_images_per_prompt=1,
+            )
+            print(i+1, "번째 이미지 생성")
+            image = result.images[0]
+            image_path = f"{username}_{i + 1}.png"
+            image.save(image_path)
+            print(f"Image {i + 1} saved locally as {image_path}.")
+            s3_key = f"generated_images/{image_path}"
+            image_url = upload_to_s3(image_path, bucket_name, s3_key)
+            image_urls.append(image_url)
+        except Exception as e:
+            print(f"Error during image generation or upload for image {i + 1}: {e}")
+
+    return image_urls
 
 if __name__ == "__main__":
     positive_prompt = sys.argv[1]
     negative_prompt = sys.argv[2]
-    img_num = int(sys.argv[3])
-    user_select_model = int(sys.argv[4])  # 추가된 부분
-    bucket_name = sys.argv[5]
+    user_select_model = int(sys.argv[3])
+    bucket_name = sys.argv[4]
+    username = sys.argv[5]  # 추가된 부분
     
+    img_num = 4
     model_id, vae = model_select(user_select_model)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    device = "cpu"
 
     try:
         pipeline = model_load(user_select_model, model_id, vae)
         pipeline.to(device)
         lora_select(pipeline, user_select_model)
         print(f"Model '{model_id}' loaded and moved to {device} successfully.")
+        print(os.environ.get('AWS_ACCESS_KEY_ID'))
     except Exception as e:
         print(f"Error loading model or sending to device: {e}")
         raise
+    print("이미지 생성 준비")
+    image_urls = gen_img(positive_prompt, negative_prompt, img_num, pipeline, user_select_model, bucket_name, username)
+    print("이미지 생성 끝")
 
-    gen_img(positive_prompt, negative_prompt, img_num, pipeline, user_select_model, bucket_name)
+    for url in image_urls:
+        print(f"Generated image URL: {url}")
