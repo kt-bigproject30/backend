@@ -2,13 +2,17 @@ package com.kt.aivle.aivleproject.service;
 
 import com.kt.aivle.aivleproject.dto.LoginRequest;
 import com.kt.aivle.aivleproject.dto.UserDTO;
+import com.kt.aivle.aivleproject.entity.Post;
 import com.kt.aivle.aivleproject.entity.UserEntity;
+import com.kt.aivle.aivleproject.repository.PostRepository;
 import com.kt.aivle.aivleproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -18,6 +22,10 @@ import java.util.Optional;
 public class MemberService {
 
     private final UserRepository memberRepository;
+
+    @Autowired
+    private PostRepository postRepository;
+
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public boolean checkUsernameDuplicate(String username){
@@ -49,23 +57,10 @@ public class MemberService {
         return findMember;
     }
 
-//    public UserDTO getLoginById(Long id){
-//        if(id == null) return null;
-//
-//        Optional<UserEntity> findMember = memberRepository.findById(id);
-//        return UserDTO.toUserDTO(findMember.orElse(null));
-//
-//    }
-
     public UserDTO getLoginByUsername(String username){
         if(username == null) return null;
 
         return UserDTO.toUserDTO(Optional.ofNullable(memberRepository.findByUsername(username)));
 
     }
-
-//    public UserEntity getUserByUsername(String username) {
-//        return memberRepository.findByUsername(username)
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid username"));
-//    }
 }

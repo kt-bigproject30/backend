@@ -1,28 +1,35 @@
 package com.kt.aivle.aivleproject.service;
 
+import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.entity.Post;
 import com.kt.aivle.aivleproject.entity.UserEntity;
 import com.kt.aivle.aivleproject.exception.exceptions.PostNotUploadException;
 import com.kt.aivle.aivleproject.repository.PostRepository;
 import com.kt.aivle.aivleproject.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class PostService {
-    @Autowired
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
+    public PostService(UserRepository userRepository, PostRepository postRepository) {
+        this.userRepository = userRepository;
+        this.postRepository = postRepository;
+    }
 
     // 서비스 화면 ==========
     public Post save(Post post) {
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity userEntity = userRepository.findByUsername(username);;
+
+        post.setUserEntity(userEntity);
         return postRepository.save(post);
     }
 

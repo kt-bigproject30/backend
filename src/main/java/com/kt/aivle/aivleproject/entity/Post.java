@@ -27,5 +27,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid") // 'referencedColumnName'은 UserEntity의 PK 필드명과 일치해야 합니다.
+//    @JoinColumn(name = "user_uuid", nullable = false)
     private UserEntity userEntity;
+
 }
