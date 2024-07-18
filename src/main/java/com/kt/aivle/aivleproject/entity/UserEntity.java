@@ -54,9 +54,8 @@ public class UserEntity {
     @Column
     private String role;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "userEntity") // mappedBy 속성 값은 Post 클래스 내의 UserEntity 참조 변수명과 일치해야 합니다.
-    private List<Post> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "userentity") // mappedBy 속성 값은 Post 클래스 내의 UserEntity 참조 변수명과 일치해야 합니다.
+    private List<Post> posts = new ArrayList<Post>();
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
@@ -66,6 +65,10 @@ public class UserEntity {
         userEntity.setName(userDTO.getName());
         userEntity.setRole(userDTO.getRole());
         return userEntity;
+    }
+
+    public UserEntity orElseThrow(Object userNotFound) {
+        return null;
     }
 
 //    public static UserEntity toUpdateUserEntity(UserDTO userDTO) {

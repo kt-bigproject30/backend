@@ -1,7 +1,10 @@
 package com.kt.aivle.aivleproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +25,11 @@ public class Post {
     private String summary;
     private String imageUrl;
 
+    @CreationTimestamp
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm.ss")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     private LocalDateTime createdAt;
+
     private String category;
 
     @ManyToOne
