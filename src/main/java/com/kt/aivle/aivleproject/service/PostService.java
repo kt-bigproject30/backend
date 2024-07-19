@@ -114,6 +114,7 @@ public class PostService {
         // 현재 인증된 사용자 가져오기
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userRepository.findByUsername(username);
+
         // 해당 사용자의 UUID로 게시글 조회
         return postRepository.findAllByUserEntityUuid(user.getUuid());
     }

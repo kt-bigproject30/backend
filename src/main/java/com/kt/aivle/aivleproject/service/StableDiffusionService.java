@@ -1,6 +1,7 @@
 package com.kt.aivle.aivleproject.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -18,13 +19,16 @@ public class StableDiffusionService {
 
     public Map<String, String> prompting(Map<String, String> str) {
         Map<String, String> result = new HashMap<>();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        result.put("username", username);
+
         try {
             if (openaiApiKey == null || openaiApiKey.isEmpty()) {
                 throw new RuntimeException("OpenAI API key is not set.");
             }
 
-            ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\User\\Downloads\\llm\\test_prompt.py", str.get("summary"));
-            // ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_prompt.py", str.get("summary"));
+            //ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\User\\Downloads\\llm\\test_prompt.py", str.get("summary"));
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_prompt.py", str.get("summary"));
             processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
             processBuilder.redirectErrorStream(true);
             Process process = processBuilder.start();
