@@ -1,6 +1,5 @@
 package com.kt.aivle.aivleproject.controller;
 
-import com.kt.aivle.aivleproject.dto.PostDTO;
 import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +76,14 @@ public class PostController {
         return new ResponseEntity<>(postService.findById(id), HttpStatus.OK);
     }
 
+    // 마이페이지 본인 게시물 전체 조회
+    @CrossOrigin
+    @GetMapping("/mypost")
+    public ResponseEntity<List<PostEntity>> getPostsForCurrentUser() {
+        List<PostEntity> posts = postService.getPostsForCurrentUser();
+        return ResponseEntity.ok(posts);
+    }
+
     // 게시판 검색기능(제목)
     @CrossOrigin
     @PostMapping("/search_title")
@@ -84,24 +91,6 @@ public class PostController {
         String searching = request.get("title");
         List<PostEntity> posts = postService.searchPostsByTitle(searching);
         return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
-
-
-
-    // 마이페이지 본인 게시물 전체 조회
-    @CrossOrigin
-    @GetMapping("/mypage")
-    public ResponseEntity<List<PostEntity>> getPostsForCurrentUser() {
-        List<PostEntity> posts = postService.getPostsForCurrentUser();
-        return new ResponseEntity<>(posts, HttpStatus.OK);
-    }
-
-    // 마이페이지 본인 게시물 전체 조회
-    @CrossOrigin
-    @GetMapping("/mypost")
-    public ResponseEntity<List<PostEntity>> getPostsForCurrentUser() {
-        List<PostEntity> posts = postService.getPostsForCurrentUser();
-        return ResponseEntity.ok(posts);
     }
 
     @CrossOrigin
