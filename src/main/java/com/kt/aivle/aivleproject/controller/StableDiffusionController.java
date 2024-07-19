@@ -17,8 +17,8 @@ public class StableDiffusionController {
     @Value("${aws.secret.access.key}")
     private String secretKey;
 
-    @Value("${bucket.name}")
-    private String bucketName;
+    @Value("${cloudfront.net}")
+    private String cloudName;
 
     @PostMapping("/generate")
     public String generateImage(@RequestBody Map<String, String> request) {
@@ -28,7 +28,7 @@ public class StableDiffusionController {
         String username = request.get("username");  // 추가된 부분
 
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test3.py", positivePrompt, negativePrompt, userSelectModel, bucketName, username);
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test3.py", positivePrompt, negativePrompt, userSelectModel, cloudName, username);
             processBuilder.environment().put("AWS_ACCESS_KEY_ID", accessKey);
             processBuilder.environment().put("AWS_SECRET_ACCESS_KEY", secretKey);
             Process process = processBuilder.start();

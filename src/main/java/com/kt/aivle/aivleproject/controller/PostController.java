@@ -108,4 +108,15 @@ public class PostController {
 //    public List<PostDTO> getPostsByUserUuid(@PathVariable UUID uuid) {
 //        return postService.getPostsByUserUuid(uuid);
 //    }
+
+//    @GetMapping("/user/{userUuid}")
+//    public List<PostEntity> getPostsByUserUuid(@PathVariable String userUuid) {
+//        UUID uuid = UUID.fromString(userUuid);
+//        return postService.getPostsByUserUuid(uuid);
+//    }
+
+    @GetMapping("/user/{username}")
+    public List<PostEntity> getPostsByUsername(@PathVariable("username") String username) {
+        return postService.getPostsByUsername(username);
+    }
 }

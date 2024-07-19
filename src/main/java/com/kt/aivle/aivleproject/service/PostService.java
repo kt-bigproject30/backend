@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PostService {
@@ -85,6 +86,11 @@ public class PostService {
         return postRepository.findAll();
     }
 
+//    public List<UserEntity> getUsername(UserEntity userEntity) {
+//
+//        return userRepository.findByUsername(userEntity);
+//    }
+
     public PostEntity findById(Long id) {
         // PostRepository를 사용하여 id에 해당하는 게시물을 찾아옵니다.
         Optional<PostEntity> post = postRepository.findById(id);
@@ -129,4 +135,22 @@ public class PostService {
 //        return postRepository.findByUserUuid(user.getUuid());
 //    }
 
+//    public List<PostEntity> getPostsByUserUuid(UUID userUuid) {
+////        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+////        UserEntity user = userRepository.findByUsername(username);
+////        return postRepository.findPostsByUserUuid(user.getUuid());
+//        return postRepository.findPostsByUserUuid(userUuid);
+//
+//    }
+
+    public List<PostEntity> getPostsByUsername(String username) {
+        UserEntity userEntity = userRepository.findByUsername(username);
+        if (userEntity != null) {
+            UUID userUuid = userEntity.getUuid();
+            return postRepository.findPostsByUserUuid(userUuid);
+        } else {
+            // 사용자 이름에 해당하는 유저가 없는 경우 빈 리스트 반환
+            return List.of();
+        }
+    }
 }

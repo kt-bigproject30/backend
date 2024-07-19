@@ -4,6 +4,8 @@ package com.kt.aivle.aivleproject.repository;
 import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,4 +26,6 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     List<PostEntity> findAllByTitleContaining(String title);
     List<PostEntity> findAllById(Long id);
 
+    @Query("SELECT p, u FROM PostEntity p LEFT JOIN p.userEntity u WHERE u.uuid = :uuid")
+    List<PostEntity> findPostsByUserUuid(@Param("uuid") UUID uuid);
 }
