@@ -1,7 +1,5 @@
 package com.kt.aivle.aivleproject.service;
 
-import com.kt.aivle.aivleproject.dto.PostDTO;
-import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.entity.UserEntity;
 import com.kt.aivle.aivleproject.exception.exceptions.PostNotUploadException;
@@ -94,6 +92,25 @@ public class PostService {
         Optional<PostEntity> post = postRepository.findById(id);
         return post.orElse(null); // 게시물이 존재하지 않을 경우 null을 반환합니다.
     }
+
+    // 사용자 마이페이지 본인 게시물 조회
+    @Transactional(readOnly = true)
+    public List<PostEntity> getPostsForCurrentUser() {
+        // 현재 인증된 사용자 가져오기
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByUsername(username);
+        // 해당 사용자의 UUID로 게시글 조회
+        return postRepository.findAllByUserEntityUuid(user.getUuid());
+//    public List<PostEntity> getPostsByUser(Long id) {
+//        return postRepository.findAllById(id);
+//    }
+
+    // 게시판 검색기능
+    @Transactional(readOnly = true)
+    public List<PostEntity> searchPostsByTitle(String title) {
+        return postRepository.findAllByTitleContaining(title);
+    }
+
 
     // 사용자 마이페이지 본인 게시물 조회
     @Transactional(readOnly = true)

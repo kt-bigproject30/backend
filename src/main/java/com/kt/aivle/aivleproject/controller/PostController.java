@@ -77,6 +77,25 @@ public class PostController {
         return new ResponseEntity<>(postService.findById(id), HttpStatus.OK);
     }
 
+    // 게시판 검색기능(제목)
+    @CrossOrigin
+    @PostMapping("/search_title")
+    public ResponseEntity<?> save(@RequestBody Map<String, String> request){
+        String searching = request.get("title");
+        List<PostEntity> posts = postService.searchPostsByTitle(searching);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+
+
+    // 마이페이지 본인 게시물 전체 조회
+    @CrossOrigin
+    @GetMapping("/mypage")
+    public ResponseEntity<List<PostEntity>> getPostsForCurrentUser() {
+        List<PostEntity> posts = postService.getPostsForCurrentUser();
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
     // 마이페이지 본인 게시물 전체 조회
     @CrossOrigin
     @GetMapping("/mypost")
