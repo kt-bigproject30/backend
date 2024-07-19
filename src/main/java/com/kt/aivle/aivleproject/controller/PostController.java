@@ -100,7 +100,7 @@ public class PostController {
         // 디버깅을 위해 uuid를 출력
 //        System.out.println("Received UUID: " + uuid);
 
-        List<PostEntity> posts = postService.getPostsForCurrentUser();
+        List<PostEntity> posts = postService.getIdForCurrentUser(id);
         return ResponseEntity.ok(posts);
     }
 
