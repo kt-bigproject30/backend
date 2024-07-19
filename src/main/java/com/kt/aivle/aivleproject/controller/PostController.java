@@ -1,5 +1,6 @@
 package com.kt.aivle.aivleproject.controller;
 
+import com.kt.aivle.aivleproject.dto.PostDTO;
 import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 
 @RestController
@@ -74,5 +77,27 @@ public class PostController {
         return new ResponseEntity<>(postService.findById(id), HttpStatus.OK);
     }
 
+    // 마이페이지 본인 게시물 전체 조회
+    @CrossOrigin
+    @GetMapping("/mypost")
+    public ResponseEntity<List<PostEntity>> getPostsForCurrentUser() {
+        List<PostEntity> posts = postService.getPostsForCurrentUser();
+        return ResponseEntity.ok(posts);
+    }
 
+    @CrossOrigin
+    @GetMapping("/mypost/{id}")
+    public ResponseEntity<List<PostEntity>> UserPost(@PathVariable("id") Long id) {
+
+        // 디버깅을 위해 uuid를 출력
+//        System.out.println("Received UUID: " + uuid);
+
+        List<PostEntity> posts = postService.getPostsForCurrentUser();
+        return ResponseEntity.ok(posts);
+    }
+
+//    @GetMapping("/user/{uuid}")
+//    public List<PostDTO> getPostsByUserUuid(@PathVariable UUID uuid) {
+//        return postService.getPostsByUserUuid(uuid);
+//    }
 }

@@ -1,6 +1,8 @@
 package com.kt.aivle.aivleproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kt.aivle.aivleproject.dto.PostDTO;
+import com.kt.aivle.aivleproject.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,5 +43,16 @@ public class PostEntity {
     //    protected void onCreate() {
     //        createdAt = LocalDateTime.now();
     //    }
+
+    public static PostEntity toPostEntity(PostDTO postDTO) {
+        PostEntity postEntity = new PostEntity();
+        postEntity.setImageUrl(postDTO.getImageUrl());
+        postEntity.setTitle(postDTO.getTitle());
+        postEntity.setCategory(postDTO.getCategory());
+        postEntity.setSummary(postDTO.getSummary());
+//        postEntity.setCreatedAt(postDTO.getCreatedAt());
+        postEntity.setContents(postEntity.getContents());
+        return postEntity;
+    }
 }
 

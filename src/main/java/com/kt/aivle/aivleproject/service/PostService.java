@@ -1,5 +1,7 @@
 package com.kt.aivle.aivleproject.service;
 
+import com.kt.aivle.aivleproject.dto.PostDTO;
+import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.entity.UserEntity;
 import com.kt.aivle.aivleproject.exception.exceptions.PostNotUploadException;
@@ -7,9 +9,11 @@ import com.kt.aivle.aivleproject.repository.PostRepository;
 import com.kt.aivle.aivleproject.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PostService {
@@ -91,8 +95,32 @@ public class PostService {
         return post.orElse(null); // 게시물이 존재하지 않을 경우 null을 반환합니다.
     }
 
-    public List<PostEntity> getPostsByUser(Long id) {
-        return postRepository.findAllById(id);
+    // 사용자 마이페이지 본인 게시물 조회
+    @Transactional(readOnly = true)
+    public List<PostEntity> getPostsForCurrentUser() {
+        // 현재 인증된 사용자 가져오기
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByUsername(username);
+        // 해당 사용자의 UUID로 게시글 조회
+        return postRepository.findAllByUserEntityUuid(user.getUuid());
     }
+
+//    @Transactional(readOnly = true)
+//    public List<PostDTO> findByUserUuid(UUID uuid) {
+//        List<PostDTO> postDTO = postRepository.findByUserUuid(UUID uuid);
+//        return postDTO;
+//    }
+
+//    @Transactional(readOnly = true)
+//    public List<PostEntity> findByUserUuid() {
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserEntity user = userRepository.findByUsername(username);
+//
+//        return postRepository.findByUserUuid(user.getUuid());
+//    }
+
+//    public List<PostDTO> getPostsByUserUuid(UUID uuid) {
+//        return postRepository.findByUserUuid(uuid);
+//    }
 
 }
