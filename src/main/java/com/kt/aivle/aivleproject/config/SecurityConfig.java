@@ -2,6 +2,7 @@ package com.kt.aivle.aivleproject.config;
 
 import com.kt.aivle.aivleproject.jwt.JWTFilter;
 import com.kt.aivle.aivleproject.jwt.JWTUtil;
+import com.kt.aivle.aivleproject.jwt.JwtBlacklist;
 import com.kt.aivle.aivleproject.jwt.LoginFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +28,12 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTUtil jwtUtil;
+    private final JwtBlacklist jwtBlacklist;
 
-    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil, JwtBlacklist jwtBlacklist) {
         this.authenticationConfiguration = authenticationConfiguration;
         this.jwtUtil = jwtUtil;
+        this.jwtBlacklist = jwtBlacklist;
     }
 
 
@@ -81,13 +84,13 @@ public class SecurityConfig {
         // 경로별 인가 작업
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers( "/","/jwt-login","/jwt-login/login","/jwt-login/join").permitAll()
+                        .requestMatchers( "/","/jwt-login","/jwt-login/login","/jwt-login/join",  "/jwt-login/logout").permitAll()
                         .requestMatchers("/jwt-login/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         // 로그인 필터 이전에 JWTFilter를 넣음
         http
-                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+                .addFilterBefore(new JWTFilter(jwtUtil, jwtBlacklist), LoginFilter.class);
 
         // 새로 만든 로그인 필터를 원래의 (UsernamePasswordAuthenticationFilter)의 자리에 넣음
         http

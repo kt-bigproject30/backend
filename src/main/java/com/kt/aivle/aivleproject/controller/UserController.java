@@ -3,9 +3,15 @@ package com.kt.aivle.aivleproject.controller;
 import com.kt.aivle.aivleproject.dto.LoginRequest;
 import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.jwt.JWTUtil;
+import com.kt.aivle.aivleproject.jwt.JwtBlacklist;
 import com.kt.aivle.aivleproject.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +29,7 @@ public class UserController {
 
     private final UserService userService;
     private final JWTUtil jwtUtil;
+    private final JwtBlacklist jwtBlacklist;
 
     @GetMapping(value = {"", "/"})
     public String home(Model model) {
@@ -132,7 +139,15 @@ public class UserController {
 //        return "index";
 //    }
 //
-//
+@PostMapping("/logout")
+public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorization) {
+    if (authorization != null && authorization.startsWith("Bearer ")) {
+        String token = authorization.split(" ")[1];
+        jwtBlacklist.addToken(token);
+        return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
+    }
+    return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
+}
 //    @GetMapping("/info")
 //    public String memberInfo(Authentication auth, Model model) {
 //

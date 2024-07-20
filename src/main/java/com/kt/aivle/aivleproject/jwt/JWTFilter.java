@@ -16,9 +16,11 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
+    private final JwtBlacklist jwtBlacklist;
 
-    public JWTFilter(JWTUtil jwtUtil) {
+    public JWTFilter(JWTUtil jwtUtil, JwtBlacklist jwtBlacklist) {
         this.jwtUtil = jwtUtil;
+        this.jwtBlacklist = jwtBlacklist;
     }
 
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -34,7 +36,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
             // token 소멸 시간 검증
             // 유효기간이 만료한 경우
-            if (jwtUtil.isExpired(token)) {
+            if (jwtUtil.isExpired(token) || jwtBlacklist.isTokenBlacklisted(token)) {
                 System.out.println("token expired");
                 filterChain.doFilter(request, response);
 
