@@ -96,10 +96,8 @@ public class PostController {
     @CrossOrigin
     @GetMapping("/mypost/{id}")
     public ResponseEntity<List<PostEntity>> UserPost(@PathVariable("id") Long id) {
-
         // 디버깅을 위해 uuid를 출력
 //        System.out.println("Received UUID: " + uuid);
-
         List<PostEntity> posts = postService.getIdForCurrentUser(id);
         return ResponseEntity.ok(posts);
     }
@@ -119,4 +117,13 @@ public class PostController {
     public List<PostEntity> getPostsByUsername(@PathVariable("username") String username) {
         return postService.getPostsByUsername(username);
     }
+
+
+    // 게시글 삭제 기능
+    @GetMapping("/delete/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        postService.delete(id);
+    }
+
+
 }

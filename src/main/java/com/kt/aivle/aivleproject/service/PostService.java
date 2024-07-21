@@ -154,4 +154,9 @@ public class PostService {
             return List.of();
         }
     }
+
+    public void delete(Long id) {
+        postRepository.deleteById(id);
+    }
+
 }

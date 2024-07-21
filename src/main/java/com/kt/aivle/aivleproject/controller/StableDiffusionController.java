@@ -39,7 +39,7 @@ public class StableDiffusionController {
         // 1. 실제 돌아갈 코드
         Map<String, String> result = new HashMap<>();
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test4.py", positivePrompt, negativePrompt, userSelectModel, cloudName, "zxqwas9510");
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test4.py", positivePrompt, negativePrompt, userSelectModel, cloudName, username);
             System.out.println("준비");
             processBuilder.environment().put("AWS_ACCESS_KEY_ID", accessKey);
             processBuilder.environment().put("AWS_SECRET_ACCESS_KEY", secretKey);
