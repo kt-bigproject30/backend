@@ -5,11 +5,8 @@ import com.kt.aivle.aivleproject.dto.UserDTO;
 import com.kt.aivle.aivleproject.jwt.JWTUtil;
 import com.kt.aivle.aivleproject.jwt.JwtBlacklist;
 import com.kt.aivle.aivleproject.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -133,11 +130,7 @@ public class UserController {
 //        return "redirect:/user/";
 //    }
 //
-//    @GetMapping("/user/logout")
-//    public String logout(HttpSession session) {
-//        session.invalidate();
-//        return "index";
-//    }
+
 //
 @PostMapping("/logout")
 public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorization) {

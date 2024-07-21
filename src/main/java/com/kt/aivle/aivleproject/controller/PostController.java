@@ -23,8 +23,7 @@ import java.util.UUID;
 public class PostController {
     @Autowired
     private PostService postService;
-    @Autowired
-    private UserRepository userRepository;
+
     public PostController(PostService postService) {
         this.postService = postService;
     }
@@ -88,6 +87,14 @@ public class PostController {
     @GetMapping("/mypost")
     public ResponseEntity<List<PostEntity>> getPostsForCurrentUser() {
         List<PostEntity> posts = postService.getPostsForCurrentUser();
+        return ResponseEntity.ok(posts);
+    }
+
+
+    @CrossOrigin
+    @GetMapping("/posts")
+    public ResponseEntity<List<PostEntity>> getPostsAll() {
+        List<PostEntity> posts = postService.getPostsAll();
         return ResponseEntity.ok(posts);
     }
 

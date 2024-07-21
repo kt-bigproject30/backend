@@ -23,6 +23,10 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 //    List<PostEntity> findByUserUuid(@Param("uuid") UUID uuid);
 
     List<PostEntity> findAllByUserEntityUuid(UUID uuid);
+
+    @Query("SELECT p, u FROM PostEntity p LEFT JOIN p.userEntity u")
+    List<PostEntity> findAllByUserEntity(@Param("uuid") UUID uuid);
+
     List<PostEntity> findAllByTitleContaining(String title);
     List<PostEntity> findAllById(Long id);
 

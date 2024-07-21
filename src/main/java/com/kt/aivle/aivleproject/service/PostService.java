@@ -119,6 +119,13 @@ public class PostService {
         return postRepository.findAllByUserEntityUuid(user.getUuid());
     }
 
+    @Transactional
+    public List<PostEntity> getPostsAll() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByUsername(username);
+        return postRepository.findAllByUserEntity(user.getUuid());
+    }
+
     @Transactional(readOnly = true)
     public List<PostEntity> getIdForCurrentUser(Long id) {
         // 현재 인증된 사용자 가져오기
