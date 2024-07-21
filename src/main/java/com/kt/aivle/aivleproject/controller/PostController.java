@@ -1,10 +1,16 @@
 package com.kt.aivle.aivleproject.controller;
 
 import com.kt.aivle.aivleproject.entity.PostEntity;
+import com.kt.aivle.aivleproject.entity.UserEntity;
+import com.kt.aivle.aivleproject.repository.PostRepository;
+import com.kt.aivle.aivleproject.repository.UserRepository;
 import com.kt.aivle.aivleproject.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -17,7 +23,8 @@ import java.util.UUID;
 public class PostController {
     @Autowired
     private PostService postService;
-
+    @Autowired
+    private UserRepository userRepository;
     public PostController(PostService postService) {
         this.postService = postService;
     }
@@ -102,28 +109,24 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-//    @GetMapping("/user/{uuid}")
-//    public List<PostDTO> getPostsByUserUuid(@PathVariable UUID uuid) {
-//        return postService.getPostsByUserUuid(uuid);
-//    }
-
-//    @GetMapping("/user/{userUuid}")
-//    public List<PostEntity> getPostsByUserUuid(@PathVariable String userUuid) {
-//        UUID uuid = UUID.fromString(userUuid);
-//        return postService.getPostsByUserUuid(uuid);
-//    }
-
     @GetMapping("/user/{username}")
     public List<PostEntity> getPostsByUsername(@PathVariable("username") String username) {
         return postService.getPostsByUsername(username);
     }
 
-
     // 게시글 삭제 기능
-    @GetMapping("/delete/{id}")
-    public void delete(@PathVariable("id") Long id) {
-        postService.delete(id);
+    @DeleteMapping("/delete/{id}")
+    public void deletePost(@PathVariable("id") Long id) {
+            postService.deletePost(id);
     }
 
-
+//    @DeleteMapping("/delete/{id}")
+//    public ResponseEntity<String> deletePost(@PathVariable("id") Long id) {
+//        boolean isDeleted = postService.deletePost(id);
+//        if (isDeleted) {
+//            return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>("Post not found or you are not authorized to delete this post", HttpStatus.NOT_FOUND);
+//        }
+//    }
 }

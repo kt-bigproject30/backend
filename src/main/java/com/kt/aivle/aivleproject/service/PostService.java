@@ -155,8 +155,32 @@ public class PostService {
         }
     }
 
-    public void delete(Long id) {
-        postRepository.deleteById(id);
+//    public void delete(Long id) {
+//        postRepository.deleteById(id);
+//    }
+
+    @Transactional
+    public void deletePost(Long id) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserEntity user = userRepository.findByUsername(username);
+        postRepository.deleteByIdAndUserEntityUuid(id, user.getUuid());
     }
+
+//    @Transactional
+//    public boolean deletePost(Long id) {
+//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//        UserEntity user = userRepository.findByUsername(username);
+//
+//        if (user == null) {
+//            return false;
+//        }
+//
+//        try {
+//            postRepository.deleteByIdAndUserEntityUuid(id, user.getUuid());
+//            return true;
+//        } catch (Exception e) {
+//            return false;
+//        }
+//    }
 
 }

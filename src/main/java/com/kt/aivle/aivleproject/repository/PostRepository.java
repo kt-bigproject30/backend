@@ -26,6 +26,8 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     List<PostEntity> findAllByTitleContaining(String title);
     List<PostEntity> findAllById(Long id);
 
+    void deleteByIdAndUserEntityUuid(Long id, UUID uuid);
+
     @Query("SELECT p, u FROM PostEntity p LEFT JOIN p.userEntity u WHERE u.uuid = :uuid")
     List<PostEntity> findPostsByUserUuid(@Param("uuid") UUID uuid);
 }
