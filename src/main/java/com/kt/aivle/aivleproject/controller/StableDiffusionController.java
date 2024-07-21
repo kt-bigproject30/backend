@@ -39,21 +39,12 @@ public class StableDiffusionController {
         // 1. 실제 돌아갈 코드
         Map<String, String> result = new HashMap<>();
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test4.py", positivePrompt, negativePrompt, userSelectModel, cloudName, username);
-            System.out.println("준비");
+            ProcessBuilder processBuilder = new ProcessBuilder("python3", "test4.py", positivePrompt, negativePrompt, userSelectModel, cloudName, "zxqwas9510");
             processBuilder.environment().put("AWS_ACCESS_KEY_ID", accessKey);
             processBuilder.environment().put("AWS_SECRET_ACCESS_KEY", secretKey);
-            System.out.println("시작");
             Process process = processBuilder.start();
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-//            StringBuilder output = new StringBuilder();
-//            String line;
-//            while ((line = reader.readLine()) != null) {
-//                output.append(line).append("\n");
-//            }
-//            process.waitFor();
-            System.out.println("끝");
 
             String[] keys = {"img1", "img2", "img3", "img4"};
             for (int i = 0; i < keys.length; i++) {
@@ -73,13 +64,5 @@ public class StableDiffusionController {
             result.put("error", "Error: " + e.getMessage());
         }
         return result;
-
-//        // 2. 입력이 잘 들어가는지 test용도(이미지 생성 모델이 무겁기 때문)
-//        Map<String, String> result = new HashMap<>();
-//        result.put("positive_prompt", positivePrompt);
-//        result.put("negative_prompt", negativePrompt);
-//        result.put("user_select_model", userSelectModel);
-//        result.put("username", username);
-//        return result;
     }
 }
