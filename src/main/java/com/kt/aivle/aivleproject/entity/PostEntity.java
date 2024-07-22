@@ -2,14 +2,13 @@ package com.kt.aivle.aivleproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kt.aivle.aivleproject.dto.PostDTO;
-import com.kt.aivle.aivleproject.dto.UserDTO;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 
 @Entity
@@ -20,6 +19,8 @@ public class PostEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "제목은 필수 입력값입니다.")
+    @Column(nullable = false)
     private String title;
 
     @Column(columnDefinition = "TEXT")

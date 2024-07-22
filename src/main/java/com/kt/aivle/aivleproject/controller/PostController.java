@@ -1,22 +1,17 @@
 package com.kt.aivle.aivleproject.controller;
 
 import com.kt.aivle.aivleproject.entity.PostEntity;
-import com.kt.aivle.aivleproject.entity.UserEntity;
-import com.kt.aivle.aivleproject.repository.PostRepository;
-import com.kt.aivle.aivleproject.repository.UserRepository;
 import com.kt.aivle.aivleproject.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
+
 
 
 @RestController

@@ -48,6 +48,7 @@ public class UserEntity {
     @Column
     private String passwordCheck;
 
+    @NotBlank(message = "이름은 필수 입력값입니다.")
     @Column(nullable = false)
     private String name;
 
