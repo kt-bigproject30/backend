@@ -101,11 +101,22 @@ public class PostController {
     // 게시판 검색기능(제목)
     @CrossOrigin
     @PostMapping("/search_title")
-    public ResponseEntity<?> save(@RequestBody Map<String, String> request){
+    public ResponseEntity<?> searchPostsByTitle(@RequestBody Map<String, String> request){
         String searching = request.get("title");
         List<PostEntity> posts = postService.searchPostsByTitle(searching);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
+
+    // 게시판 검색기능(카테고리)
+    @CrossOrigin
+    @PostMapping("/search_category")
+    public ResponseEntity<?> searchPostsByCategory(@RequestBody Map<String, String> request){
+        String searching = request.get("category");
+        List<PostEntity> posts = postService.searchPostsByCategory(searching);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+
 
     @CrossOrigin
     @GetMapping("/mypost/{id}")

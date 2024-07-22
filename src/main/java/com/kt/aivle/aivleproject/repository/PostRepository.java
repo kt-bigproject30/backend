@@ -33,6 +33,7 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
     List<PostEntity> findAllByUserEntity(@Param("uuid") UUID uuid);
 
     List<PostEntity> findAllByTitleContaining(String title);
+    List<PostEntity> findAllByCategoryContaining(String category);
     List<PostEntity> findAllById(Long id);
 
     void deleteByIdAndUserEntityUuid(Long id, UUID uuid);

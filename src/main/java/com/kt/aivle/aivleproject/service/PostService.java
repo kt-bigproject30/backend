@@ -107,6 +107,11 @@ public class PostService {
         return postRepository.findAllByTitleContaining(title);
     }
 
+    @Transactional(readOnly = true)
+    public List<PostEntity> searchPostsByCategory(String title) {
+        return postRepository.findAllByCategoryContaining(title);
+    }
+
 
     // 사용자 마이페이지 본인 게시물 조회
     @Transactional(readOnly = true)
