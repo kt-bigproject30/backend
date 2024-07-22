@@ -48,7 +48,7 @@ public class UserEntity {
     @Column
     private String passwordCheck;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @Column

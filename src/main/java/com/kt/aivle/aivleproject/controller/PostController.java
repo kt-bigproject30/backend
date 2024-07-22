@@ -69,11 +69,11 @@ public class PostController {
 
 
     // 게시판 리스트 목록
-    @CrossOrigin
-    @GetMapping("/post")
-    public ResponseEntity<?> findAll() {
-        return new ResponseEntity<>(postService.findAll(), HttpStatus.OK);
-    }
+//    @CrossOrigin
+//    @GetMapping("/post")
+//    public ResponseEntity<?> findAll() {
+//        return new ResponseEntity<>(postService.findAll(), HttpStatus.OK);
+//    }
 
     // 게시판 detail 창
     @CrossOrigin
@@ -92,7 +92,7 @@ public class PostController {
 
 
     @CrossOrigin
-    @GetMapping("/posts")
+    @GetMapping("/post")
     public ResponseEntity<List<PostEntity>> getPostsAll() {
         List<PostEntity> posts = postService.getPostsAll();
         return ResponseEntity.ok(posts);

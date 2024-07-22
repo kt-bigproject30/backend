@@ -24,6 +24,11 @@ public interface PostRepository extends JpaRepository<PostEntity, Long> {
 
     List<PostEntity> findAllByUserEntityUuid(UUID uuid);
 
+//    @Query(value = "SELECT p.id, p.title, p.contents, p.summary, p.image_url AS imageUrl, " +
+//            "DATE_FORMAT(p.created_at, '%Y-%m-%d %H:%i:%s') AS createdAt, " +
+//            "p.category, p.user_uuid AS userEntity " +
+//            "FROM post p LEFT JOIN user u ON p.user_uuid = u.uuid " +
+//            "ORDER BY p.created_at DESC", nativeQuery = true)
     @Query("SELECT p FROM PostEntity p LEFT JOIN p.userEntity u ORDER BY p.createdAt DESC")
     List<PostEntity> findAllByUserEntity(@Param("uuid") UUID uuid);
 

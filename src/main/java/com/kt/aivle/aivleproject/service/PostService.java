@@ -82,9 +82,9 @@ public class PostService {
 
 
     // 게시판 ==============
-    public List<PostEntity> findAll() {
-        return postRepository.findAll();
-    }
+//    public List<PostEntity> findAll() {
+//        return postRepository.findAll();
+//    }
 
 //    public List<UserEntity> getUsername(UserEntity userEntity) {
 //
