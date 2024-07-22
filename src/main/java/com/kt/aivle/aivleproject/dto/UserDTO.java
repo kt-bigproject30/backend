@@ -15,7 +15,6 @@ import java.util.UUID;
 public class UserDTO {
     private Long id;
     private UUID uuid;
-//    private String email;
     private String username;
     private String password;
     private String passwordCheck;
@@ -25,11 +24,8 @@ public class UserDTO {
     public static UserDTO toUserDTO(Optional<UserEntity> userEntity) {
 
         UserDTO userDTO = new UserDTO();
-//        userDTO.setId(userEntity.get().getId());
         userDTO.setUuid(userEntity.get().getUuid());
-//        userDTO.setEmail(userEntity.getEmail());
         userDTO.setPassword(userEntity.get().getPassword());
-//        userDTO.setPasswordCheck(userEntity.getPasswordCheck());
         userDTO.setUsername(userEntity.get().getUsername());
         userDTO.setName(userEntity.get().getName());
         userDTO.setRole(userEntity.get().getRole());

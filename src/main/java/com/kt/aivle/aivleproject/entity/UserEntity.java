@@ -18,22 +18,13 @@ import java.util.UUID;
 @Setter
 @Getter
 @Table(name = "user")
-//        , indexes = {
-//        @Index(name = "idx_uuid", columnList = "uuid", unique = true)
-//})
 public class UserEntity {
-//    @Id // pk 지정
-//    @Column(nullable = false)
-//    @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
-//    private Long id;
 
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false)
     private UUID uuid;
-//    @Column
-//    private String email;
 
     @Column(nullable = false, unique = true)
     @Size(min = 6, message = "ID는 6자 이상 구성되어야 합니다.")
@@ -61,7 +52,6 @@ public class UserEntity {
 
     public static UserEntity toUserEntity(UserDTO userDTO) {
         UserEntity userEntity = new UserEntity();
-//        userEntity.setEmail(userDTO.getEmail());
         userEntity.setPassword(userDTO.getPassword());
         userEntity.setUsername(userDTO.getUsername());
         userEntity.setName(userDTO.getName());
@@ -69,15 +59,5 @@ public class UserEntity {
         return userEntity;
     }
 
-//    public static UserEntity toUpdateUserEntity(UserDTO userDTO) {
-//        UserEntity userEntity = new UserEntity();
-//        userEntity.setId(userDTO.getId());
-//        userEntity.setEmail(userDTO.getEmail());
-//        userEntity.setPassword(userDTO.getPassword());
-//        userEntity.setUsername(userDTO.getUsername());
-//        userEntity.setName(userDTO.getName());
-//        userEntity.setRole(userDTO.getRole());
-//        return userEntity;
-//    }
 
 }

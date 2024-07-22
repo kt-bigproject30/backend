@@ -80,26 +80,11 @@ public class PostService {
         }
     }
 
-
-    // 게시판 ==============
-//    public List<PostEntity> findAll() {
-//        return postRepository.findAll();
-//    }
-
-//    public List<UserEntity> getUsername(UserEntity userEntity) {
-//
-//        return userRepository.findByUsername(userEntity);
-//    }
-
     public PostEntity findById(Long id) {
         // PostRepository를 사용하여 id에 해당하는 게시물을 찾아옵니다.
         Optional<PostEntity> post = postRepository.findById(id);
         return post.orElse(null); // 게시물이 존재하지 않을 경우 null을 반환합니다.
     }
-
-//    public List<PostEntity> getPostsByUser(Long id) {
-//        return postRepository.findAllById(id);
-//    }
 
     // 게시판 검색기능
     @Transactional(readOnly = true)
@@ -133,28 +118,9 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public List<PostEntity> getIdForCurrentUser(Long id) {
-        // 현재 인증된 사용자 가져오기
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        UserEntity user = userRepository.findByUsername(username);
         // 해당 사용자의 UUID로 게시글 조회
         return postRepository.findAllById(id);
     }
-
-//    @Transactional(readOnly = true)
-//    public List<PostEntity> findByUserUuid() {
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        UserEntity user = userRepository.findByUsername(username);
-//
-//        return postRepository.findByUserUuid(user.getUuid());
-//    }
-
-//    public List<PostEntity> getPostsByUserUuid(UUID userUuid) {
-////        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-////        UserEntity user = userRepository.findByUsername(username);
-////        return postRepository.findPostsByUserUuid(user.getUuid());
-//        return postRepository.findPostsByUserUuid(userUuid);
-//
-//    }
 
     public List<PostEntity> getPostsByUsername(String username) {
         UserEntity userEntity = userRepository.findByUsername(username);
@@ -167,32 +133,11 @@ public class PostService {
         }
     }
 
-//    public void delete(Long id) {
-//        postRepository.deleteById(id);
-//    }
-
     @Transactional
     public void deletePost(Long id) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         UserEntity user = userRepository.findByUsername(username);
         postRepository.deleteByIdAndUserEntityUuid(id, user.getUuid());
     }
-
-//    @Transactional
-//    public boolean deletePost(Long id) {
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        UserEntity user = userRepository.findByUsername(username);
-//
-//        if (user == null) {
-//            return false;
-//        }
-//
-//        try {
-//            postRepository.deleteByIdAndUserEntityUuid(id, user.getUuid());
-//            return true;
-//        } catch (Exception e) {
-//            return false;
-//        }
-//    }
 
 }

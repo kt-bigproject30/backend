@@ -27,7 +27,6 @@ public class StableDiffusionService {
                 throw new RuntimeException("OpenAI API key is not set.");
             }
 
-            //ProcessBuilder processBuilder = new ProcessBuilder("python", "C:\\Users\\User\\Downloads\\llm\\test_prompt.py", str.get("summary"));
             ProcessBuilder processBuilder = new ProcessBuilder("python3", "test_prompt.py", str.get("summary"));
             processBuilder.environment().put("OPENAI_API_KEY", openaiApiKey);
             processBuilder.redirectErrorStream(true);

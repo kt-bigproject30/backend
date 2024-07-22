@@ -40,11 +40,6 @@ public class PostEntity {
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid") // 'referencedColumnName'은 UserEntity의 PK 필드명과 일치해야 합니다.
     private UserEntity userEntity;
 
-    //    @PrePersist
-    //    protected void onCreate() {
-    //        createdAt = LocalDateTime.now();
-    //    }
-
     public static PostEntity toPostEntity(PostDTO postDTO) {
         PostEntity postEntity = new PostEntity();
         postEntity.setImageUrl(postDTO.getImageUrl());

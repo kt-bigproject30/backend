@@ -45,8 +45,6 @@ public class PostDTO {
         this.title = title;
         this.createdAt = createdAt;
         this.category = category;
-//        this.summary = summary;
-//        this.imageUrl = imageUrl;
     }
 
 }
