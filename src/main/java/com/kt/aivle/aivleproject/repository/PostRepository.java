@@ -11,7 +11,8 @@ import java.util.UUID;
 
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
     // 사용자 ID와 일치하는 게시글을 조회하는 메서드
-    List<PostEntity> findAllByUserEntityUuid(UUID uuid);
+    @Query("SELECT p FROM PostEntity p LEFT JOIN p.userEntity u WHERE u.uuid = :uuid ORDER BY p.createdAt DESC")
+    List<PostEntity> findAllByUserEntityUuid(@Param("uuid") UUID uuid);
 
 
     @Query("SELECT p FROM PostEntity p LEFT JOIN p.userEntity u ORDER BY p.createdAt DESC")
