@@ -18,8 +18,6 @@ public class ImageMetadata {
 
     private String s3Url;
 
-    // Additional fields can be added as needed
-
     public ImageMetadata() {}
 
     public ImageMetadata(String s3Url) {

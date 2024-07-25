@@ -30,30 +30,6 @@ public class PostController {
         return new ResponseEntity<>(postService.save(postEntity), HttpStatus.CREATED);
     }
 
-    // 텍스트요약 버튼 : 텍스트 요약
-    @CrossOrigin
-    @GetMapping("/summarize")
-    public ResponseEntity<?> summarize(@RequestBody PostEntity postEntity) {
-        String summary = postService.summarize(postEntity.getContents());
-
-        Map<String, String> response = new HashMap<>();
-        response.put("summary", summary);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    // 이미지생성 버튼 : 이미지 생성
-    @CrossOrigin
-    @GetMapping("/generateImage")
-    public ResponseEntity<?> generateImage(@RequestBody Map<String, String> request) {
-        String summary = request.get("summary");
-        String style = request.get("style");
-        String imageUrl = postService.generateImage(summary, style);
-
-        Map<String, String> response = new HashMap<>();
-        response.put("imageUrl", imageUrl);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     // 게시글등록 버튼 : update()
     @CrossOrigin
     @PutMapping("/updatePost/{id}")
@@ -61,14 +37,6 @@ public class PostController {
         PostEntity updatedPostEntity = postService.updatePost(id, postEntity);
         return new ResponseEntity<>(updatedPostEntity, HttpStatus.OK);
     }
-
-
-    // 게시판 리스트 목록
-//    @CrossOrigin
-//    @GetMapping("/post")
-//    public ResponseEntity<?> findAll() {
-//        return new ResponseEntity<>(postService.findAll(), HttpStatus.OK);
-//    }
 
     // 게시판 detail 창
     @CrossOrigin
@@ -116,8 +84,6 @@ public class PostController {
     @CrossOrigin
     @GetMapping("/mypost/{id}")
     public ResponseEntity<List<PostEntity>> UserPost(@PathVariable("id") Long id) {
-        // 디버깅을 위해 uuid를 출력
-//        System.out.println("Received UUID: " + uuid);
         List<PostEntity> posts = postService.getIdForCurrentUser(id);
         return ResponseEntity.ok(posts);
     }
@@ -132,14 +98,4 @@ public class PostController {
     public void deletePost(@PathVariable("id") Long id) {
             postService.deletePost(id);
     }
-
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<String> deletePost(@PathVariable("id") Long id) {
-//        boolean isDeleted = postService.deletePost(id);
-//        if (isDeleted) {
-//            return new ResponseEntity<>("Post deleted successfully", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Post not found or you are not authorized to delete this post", HttpStatus.NOT_FOUND);
-//        }
-//    }
 }

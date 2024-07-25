@@ -41,14 +41,4 @@ public class JWTUtil {
                 .signWith(this.secretKey)
                 .compact();
     }
-
-//    public String refreshJwt(String username, String role, Long expiredMs) {
-//        return Jwts.builder()
-//                .claim("username", username)
-//                .claim("role", role)
-//                .issuedAt(new Date(System.currentTimeMillis()))
-//                .expiration(new Date(System.currentTimeMillis() + expiredMs))
-//                .signWith(this.secretKey)
-//                .compact();
-//    }
 }

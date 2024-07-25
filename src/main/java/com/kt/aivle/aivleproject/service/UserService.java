@@ -61,21 +61,4 @@ public class UserService {
         return UserDTO.toUserDTO(Optional.ofNullable(memberRepository.findByUsername(username)));
 
     }
-
-    //    public UserDTO updateForm(String username) {
-//        UserEntity userEntity = userRepository.findByUsername(username);
-//        if (userEntity != null) {
-//            return UserDTO.toUserDTO(userEntity);
-//        } else {
-//            return null;
-//        }
-//    }
-//
-//    public void update(UserDTO userDTO) {
-//        userRepository.save(UserEntity.toUpdateUserEntity(userDTO));
-//    }
-//
-//    public void deleteById(Long id) {
-//        userRepository.deleteById(id);
-//    }
 }

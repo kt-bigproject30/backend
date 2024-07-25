@@ -110,48 +110,13 @@ public class UserController {
         return token;
     }
 
-//    @GetMapping("/user/update")
-//    public String updateForm(HttpSession session, Model model) {
-//        String myUsername = (String) session.getAttribute("loginUsername");
-//        UserDTO userDTO = userService.updateForm(myUsername);
-//        model.addAttribute("updateUser", userDTO);
-//        return "update";
-//    }
-//
-//    @PostMapping("/user/update")
-//    public String update(@ModelAttribute UserDTO userDTO) {
-//        userService.update(userDTO);
-//        return "redirect:/user/" + userDTO.getId();
-//    }
-//
-//    @GetMapping("/user/delete/{id}")
-//    public String deleteById(@PathVariable Long id) {
-//        userService.deleteById(id);
-//        return "redirect:/user/";
-//    }
-//
-
-//
-@PostMapping("/logout")
-public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorization) {
-    if (authorization != null && authorization.startsWith("Bearer ")) {
-        String token = authorization.split(" ")[1];
-        jwtBlacklist.addToken(token);
-        return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authorization) {
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            String token = authorization.split(" ")[1];
+            jwtBlacklist.addToken(token);
+            return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
     }
-    return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
-}
-//    @GetMapping("/info")
-//    public String memberInfo(Authentication auth, Model model) {
-//
-//        UserDTO login = memberService.getLoginByUsername(auth.getName());
-//
-//        return "ID : " + login.getUsername() + "\n이름 : " + login.getName() + "\nrole : " + login.getRole();
-//    }
-//
-//    @GetMapping("/admin")
-//    public String adminPage(Model model) {
-//
-//        return "admin";
-//    }
 }

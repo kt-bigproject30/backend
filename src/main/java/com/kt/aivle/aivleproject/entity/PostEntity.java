@@ -1,7 +1,6 @@
 package com.kt.aivle.aivleproject.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.kt.aivle.aivleproject.dto.PostDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -39,20 +38,5 @@ public class PostEntity {
     @ManyToOne
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid") // 'referencedColumnName'은 UserEntity의 PK 필드명과 일치해야 합니다.
     private UserEntity userEntity;
-
-    //    @PrePersist
-    //    protected void onCreate() {
-    //        createdAt = LocalDateTime.now();
-    //    }
-
-    public static PostEntity toPostEntity(PostDTO postDTO) {
-        PostEntity postEntity = new PostEntity();
-        postEntity.setImageUrl(postDTO.getImageUrl());
-        postEntity.setTitle(postDTO.getTitle());
-        postEntity.setCategory(postDTO.getCategory());
-        postEntity.setSummary(postDTO.getSummary());
-        postEntity.setContents(postEntity.getContents());
-        return postEntity;
-    }
 }
 
