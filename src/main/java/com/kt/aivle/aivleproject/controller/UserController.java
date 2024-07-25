@@ -17,7 +17,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -119,4 +121,19 @@ public class UserController {
         }
         return new ResponseEntity<>("Invalid token", HttpStatus.BAD_REQUEST);
     }
+    @GetMapping("/user")
+    public ResponseEntity<Map<String, String>> getCurrentUserName() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO userDTO = userService.getLoginByUsername(username);
+
+        Map<String, String> response = new HashMap<>();
+        if (userDTO != null) {
+            response.put("name", userDTO.getName());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.put("error", "User not found");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

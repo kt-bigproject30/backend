@@ -2,22 +2,26 @@ package com.kt.aivle.aivleproject.controller;
 
 import com.kt.aivle.aivleproject.entity.PostEntity;
 import com.kt.aivle.aivleproject.service.PostService;
+import com.kt.aivle.aivleproject.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-
 @RestController
 public class PostController {
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private S3Service s3Service;
 
     public PostController(PostService postService) {
         this.postService = postService;
@@ -30,12 +34,21 @@ public class PostController {
         return new ResponseEntity<>(postService.save(postEntity), HttpStatus.CREATED);
     }
 
-    // 게시글등록 버튼 : update()
     @CrossOrigin
     @PutMapping("/updatePost/{id}")
-    public ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestBody PostEntity postEntity) {
-        PostEntity updatedPostEntity = postService.updatePost(id, postEntity);
-        return new ResponseEntity<>(updatedPostEntity, HttpStatus.OK);
+    public ResponseEntity<?> updatePost(@PathVariable("id") Long id, @RequestParam("image") MultipartFile image) {
+        try {
+            // 이미지 파일 S3에 업로드
+            String imageUrl = s3Service.uploadFile(image);
+            // PostEntity 업데이트
+            PostEntity postEntity = new PostEntity();
+            postEntity.setImageUrl(imageUrl);
+
+            PostEntity updatedPostEntity = postService.updatePost(id, postEntity);
+            return new ResponseEntity<>(updatedPostEntity, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // 게시판 detail 창

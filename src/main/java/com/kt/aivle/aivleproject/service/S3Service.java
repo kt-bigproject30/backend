@@ -5,11 +5,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.S3Object;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -24,6 +28,9 @@ public class S3Service {
 
     @Value("${bucket.name}")
     private String bucketName;
+
+    @Value("${cloudfront.net}")
+    private String cloudFrontName;
 
     private S3Client s3Client;
 
@@ -49,5 +56,32 @@ public class S3Service {
 
     public List<S3Object> listFiles() {
         return s3Client.listObjectsV2(builder -> builder.bucket(bucketName)).contents();
+    }
+
+    public String uploadFile(MultipartFile multipartFile) {
+        try {
+            File file = convertMultiPartToFile(multipartFile);
+            String keyName = "generated_images/" + multipartFile.getOriginalFilename();
+            PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                    .bucket(bucketName)
+                    .key(keyName)
+                    .build();
+            s3Client.putObject(putObjectRequest, RequestBody.fromFile(file));
+            String fileUrl = String.format("https://%s/%s", cloudFrontName, keyName);
+            return fileUrl;
+        } catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
+
+    private File convertMultiPartToFile(MultipartFile file) throws IOException {
+        String userHome = System.getProperty("user.home");
+        String targetDirectory = userHome + "/test/picture/";
+        File convFile = new File(targetDirectory + file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convFile;
     }
 }
